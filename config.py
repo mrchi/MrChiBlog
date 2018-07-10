@@ -9,6 +9,7 @@ class Config:
     ROOTDIR = os.environ.get("ROOTDIR")
     ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
     WEBHOOK_TOKEN = os.environ.get("WEBHOOK_TOKEN")
+    CODING_DOMAIN = "https://coding.net"
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
