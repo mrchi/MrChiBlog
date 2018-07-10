@@ -16,7 +16,7 @@ class User(db.Model):
     username = db.Column(db.String(64), unique=True, nullable=False)
     avatar = db.Column(db.String(256))
     permalink = db.Column(db.String(128), unique=True, nullable=False)
-    posts = db.Relationship("Post", backref="author", lazy="dynamic")
+    posts = db.relationship("Post", backref="author", lazy="dynamic")
 
     @property
     def avatar_url(self):
@@ -36,4 +36,4 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False, default="")
     html_content = db.Column(db.Text, nullable=False, default="")
     last_update = db.Column(db.DateTime, nullable=False)
-    author_id = db.Column(db.Integer, db.Relationship(User.id), nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
