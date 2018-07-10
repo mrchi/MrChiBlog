@@ -3,7 +3,6 @@
 import uuid
 from urllib.parse import urljoin
 
-from flask import current_app
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -20,7 +19,7 @@ class User(db.Model):
 
     @property
     def avatar_url(self):
-        return urljoin(current_app.config["CODING_DOMAIN"], self.avatar)
+        return urljoin("https://coding.net", self.avatar)
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
