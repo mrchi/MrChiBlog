@@ -35,5 +35,6 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     html_content = db.Column(db.Text, nullable=False, default="")
     last_update = db.Column(db.DateTime, nullable=False)
-    path = db.Column(db.String(256), nullable=False)
+    coding_path = db.Column(db.String(256), nullable=False)
+    status = db.Column(db.Integer, nullable=False, default=0)   # 0:未公开，1:公开，2:删除
     author_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
