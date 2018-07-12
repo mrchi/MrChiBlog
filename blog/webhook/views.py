@@ -16,4 +16,20 @@ def coding_webhook():
     )
     if not is_ok:
         return jsonify(dict(success=False, errmsg="签名验证失败")), 403
+
+    event = request.headers.get("X-Coding-Event", "ping")
+    # 响应 ping 事件
+    if event == "ping":
+        return jsonify(dict(success=True))
+    # 获取更新列表
+    data = request.json
+    paths = {}
+    for commit in data["commits"][::-1]:
+        for type_ in ("added", "modified", "removed"):
+            paths.update({file: type_ for file in commit[type_]})
+    removed_paths = [i for i in paths if paths[i] == "removed"]
+    updated_paths = [i for i in paths if paths[i] in ("added", "modified")]
+
+    # Celery任务执行
+
     return jsonify(dict(success=True))
