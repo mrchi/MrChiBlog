@@ -32,7 +32,8 @@ class Post(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(128), unique=True, nullable=False)
-    content = db.Column(db.Text, nullable=False, default="")
+    content = db.Column(db.Text, nullable=False)
     html_content = db.Column(db.Text, nullable=False, default="")
     last_update = db.Column(db.DateTime, nullable=False)
+    path = db.Column(db.String(256), nullable=False)
     author_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
