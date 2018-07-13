@@ -18,7 +18,7 @@ class CodingPost:
 
     def _http_get(self, url, params=None, headers={}, **kw):
         """HTTP GET请求，封装Coding token鉴权和基本错误处理"""
-        headers["Authorization"] = f"token {self._access_token}"
+        headers["Authorization"] = f"token {self._access_token}"    # noqa
         resp = requests.get(
             url,
             params=params,
