@@ -4,4 +4,7 @@ from flask import Blueprint
 
 bp_main = Blueprint("main", __name__)
 
-from blog.main import views, errors
+
+@bp_main.route("/")
+def index():
+    return "hello, world!"

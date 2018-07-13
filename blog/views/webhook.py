@@ -1,9 +1,10 @@
 # coding=utf-8
 
-from flask import jsonify, request, current_app
+from flask import Blueprint, jsonify, request, current_app
 
-from blog.webhook import bp_webhook
 from blog.libs.coding import CodingSignature
+
+bp_webhook = Blueprint("webhook", __name__, url_prefix="/webhook")
 
 
 @bp_webhook.route("/coding", methods=["GET", "POST"])
