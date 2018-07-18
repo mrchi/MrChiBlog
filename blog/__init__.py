@@ -3,6 +3,7 @@
 from flask import Flask
 
 from blog import views
+from blog import celerys
 from blog.models import db
 
 
@@ -14,5 +15,6 @@ def create_app(config_obj):
     db.init_app(app)
 
     views.init_app(app)
+    celerys.init_app(app)
 
     return app
