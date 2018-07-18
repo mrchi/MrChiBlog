@@ -9,6 +9,8 @@ flask-sqlalchemy = "*"
 pymysql = "*"
 requests = "*"
 flask-migrate = "*"
+celery = "*"
+redis = "*"
 
 [dev-packages]
 
