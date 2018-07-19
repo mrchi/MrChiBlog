@@ -25,7 +25,8 @@ def coding_webhook():
     # 获取更新列表
     data = request.json
     paths = {}
-    for commit in data["commits"][::-1]:
+    commits = data.get("commits") or [data["head_commit"]]
+    for commit in reversed(commits):
         for type_ in ("added", "modified", "removed"):
             paths.update({file: type_ for file in commit[type_]})
     removed_paths = [i for i in paths if paths[i] == "removed"]
