@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="纸上得来终觉浅。">
+    <meta name="keywords" content="">
+    <meta name="author" content="MrChi">
+    {% block metas %}{% endblock %}
+
+    <title>{% block title %}{% endblock %} - MrChi</title>
+
+    <link href="{{ url_for('static', filename='favicon.ico') }}" rel="icon" >
+    <link href="{{ url_for('static', filename='libs/Bootstrap/4.1.2/bootstrap.min.css') }}" rel="stylesheet">
+    {% block styles %}{% endblock %}
+</head>
+
+<body>
+    {% block navbar %}
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">Logooooooo</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">归档</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">系列</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">标签</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">关于我</a></li>
+                </ul>
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    {% endblock %}
+    {% block content %}{% endblock %}
+    {% block footer %}{% endblock %}
+    <script src="{{ url_for('static', filename='libs/jQuery/3.3.1/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='libs/Bootstrap/4.1.2/bootstrap.bundle.min.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>
