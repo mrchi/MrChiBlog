@@ -35,10 +35,10 @@ class CodingPost:
         result = self._http_get(url)
         return result["data"]["depot"]["lastCommitSha"]
 
-    def get_all_files_list(self):
+    def get_all_paths(self):
         """获取全量md文件列表，包括子目录中的文件。"""
         base_url = f"https://coding.net/api/user/{self.owner}/project/{self.project}/git/tree/{self.commit_sha}/"
-        results = []
+        results = set()
         visit_list = [self.rootdir]
         while visit_list:
             url = urljoin(base_url, "./" + visit_list.pop().lstrip("/"))
@@ -47,7 +47,7 @@ class CodingPost:
                 if fileinfo["mode"] == "tree":
                     visit_list.append(fileinfo["path"])
                 elif fileinfo["mode"] == "file":
-                    results.append(fileinfo["path"])
+                    results.add(fileinfo["path"])
         return results
 
     def get_file_content(self, file_path):

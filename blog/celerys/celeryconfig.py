@@ -6,5 +6,4 @@ broker_url = os.environ.get("CELERY_BROKER_URL")
 result_backend = os.environ.get("CELERY_RESULT_BACKED")
 task_default_queue = "update_queue"
 timezone = "Asia/Shanghai"
-worker_concurrency = 1
 task_soft_time_limit = 60

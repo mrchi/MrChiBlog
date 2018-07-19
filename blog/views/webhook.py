@@ -3,6 +3,7 @@
 from flask import Blueprint, jsonify, request, current_app
 
 from blog.libs.coding import CodingSignature
+from blog.celerys.tasks import remove_posts, update_posts
 
 bp_webhook = Blueprint("webhook", __name__, url_prefix="/webhook")
 
@@ -33,5 +34,7 @@ def coding_webhook():
     updated_paths = [i for i in paths if paths[i] in ("added", "modified")]
 
     # Celery任务执行
+    remove_posts.delay(removed_paths)
+    update_posts.delay(updated_paths)
 
     return jsonify(dict(success=True))
