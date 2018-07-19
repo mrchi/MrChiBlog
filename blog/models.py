@@ -1,6 +1,5 @@
 # coding=utf-8
 
-import uuid
 from urllib.parse import urljoin
 
 from flask_sqlalchemy import SQLAlchemy
