@@ -56,10 +56,11 @@ class CodingPost:
         url = urljoin(base_url, "./" + file_path.lstrip("/"))
         result = self._http_get(url)
         file_data = result["data"]["file"]
+        author = file_data["lastCommitter"]
         return {
             "title": file_data["name"].strip(".md"),
             "content": file_data["data"],
-            "author": file_data["lastCommitter"]["name"],
+            "author": {"name": author["name"], "avatar": author["avatar"]},
             "timestamp": file_data["lastCommitDate"],
         }
 

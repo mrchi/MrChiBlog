@@ -53,8 +53,9 @@ def update_posts(updated_paths, update_all=False):
         # 获取文章内容
         data = coding.get_file_content(path)
         # 获取 Author 对象
-        author = User.query.filter_by(username=data["author"]).one_or_none() \
-            or User(username=data["author"])
+        author = User.query.filter_by(username=data["author"]["name"]).one_or_none() \
+            or User(username=data["author"]["name"])
+        author.avatar = data["author"]["avatar"]
         # 更新文章
         post.title = data["title"]
         post.content = data["content"]
