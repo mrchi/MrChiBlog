@@ -14,17 +14,11 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(64), unique=True, nullable=False)
     avatar = db.Column(db.String(256))
-    permalink = db.Column(db.String(128), unique=True, nullable=False)
     posts = db.relationship("Post", backref="author", lazy="dynamic")
 
     @property
     def avatar_url(self):
         return urljoin("https://coding.net", self.avatar)
-
-    def __init__(self, **kwargs):
-        super(User, self).__init__(**kwargs)
-        if self.permalink is None:
-            self.permalink = uuid.uuid4().hex
 
 
 class Post(db.Model):
