@@ -1,9 +1,9 @@
 # coding=utf-8
 
-from blog.views.main import bp_main
-from blog.views.manage import bp_manage
-from blog.views.webhook import bp_webhook
-from blog.views.error import bp_error
+from .main import bp_main
+from .manage import bp_manage
+from .webhook import bp_webhook
+from .error import bp_error
 
 
 def init_app(app):
