@@ -14,7 +14,9 @@
 
     <link href="{{ url_for('static', filename='img/favicon.ico') }}" rel="icon" >
     <link href="{{ url_for('static', filename='libs/Bootstrap/4.1.2/bootstrap.min.css') }}" rel="stylesheet">
-    {% block styles %}{% endblock %}
+    {% block styles %}
+    <link href="{{ url_for('static', filename='css/global.css') }}" rel="stylesheet">
+    {% endblock %}
 </head>
 
 <body>
@@ -41,10 +43,21 @@
         </div>
     </nav>
     {% endblock %}
+
     {% block content %}{% endblock %}
-    {% block footer %}{% endblock %}
+
+    {% block footer %}
+    <footer id="footer">
+        <div class="container">
+            Powered by <a href="http://flask.pocoo.org/">Flask</a>.
+            <br>
+            Copyright © 2018 MrChi
+        </div>
+    </footer>
+    {% endblock %}
     <script src="{{ url_for('static', filename='libs/jQuery/3.3.1/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ url_for('static', filename='libs/Bootstrap/4.1.2/bootstrap.bundle.min.js') }}"></script>
+
     {% block scripts %}{% endblock %}
 </body>
 
