@@ -1,14 +1,29 @@
 # coding=utf-8
 
-from flask import Blueprint, jsonify, request, current_app
+from flask import Blueprint, jsonify, request, current_app, g
 
 from blog.libs.coding import CodingSignature
 from blog.celerys.tasks import remove_posts, update_posts
+from .common import check_args
 
 bp_webhook = Blueprint("webhook", __name__, url_prefix="/webhook")
 
 
-@bp_webhook.route("/coding", methods=["GET", "POST"])
+@bp_webhook.errorhandler(400)
+def http_400(e):
+    errmsg = "invalid argument"
+    if getattr(g, "bad_request_tip", None):
+        errmsg += f" '{g.bad_request_tip}'"     # noqa
+    return jsonify(dict(success=False, errmsg=errmsg)), 400
+
+
+@bp_webhook.errorhandler(403)
+def http_403(e):
+    return jsonify(dict(success=False, errmsg="签名验证失败")), 403
+
+
+@bp_webhook.route("/coding", methods=["POST"])
+@check_args("commits:list?", "head_commit:dict")
 def coding_webhook():
     # 鉴权
     is_ok = CodingSignature.check_webhook_signature(
@@ -17,16 +32,15 @@ def coding_webhook():
         request.headers.get("X-Coding-Signature", ""),
     )
     if not is_ok:
-        return jsonify(dict(success=False, errmsg="签名验证失败")), 403
+        abort(403)
 
     event = request.headers.get("X-Coding-Event", "ping")
     # 响应 ping 事件
     if event == "ping":
         return jsonify(dict(success=True))
     # 获取更新列表
-    data = request.json
+    commits = g.args.get("commits") or [g.args["head_commit"]]
     paths = {}
-    commits = data.get("commits") or [data["head_commit"]]
     for commit in reversed(commits):
         for type_ in ("added", "modified", "removed"):
             paths.update({file: type_ for file in commit[type_]})
