@@ -1,3 +1,6 @@
+{# 这里定义可以重复使用的宏组件，包括分页导航、面包屑导航、文章列表等。 #}
+
+
 {% macro pagination_widget(pagination, endpoint) %}
 {% if pagination and pagination.pages > 1 %}
 <nav aria-label="page navigation">
@@ -28,6 +31,20 @@
 {% endif %}
 
     </ul>
+</nav>
+{% endif %}
+{% endmacro %}
+
+
+{% macro breadcrumb_widget(items) %}
+{% if items %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        {% for nav_url, nav_text in items[:-1] %}
+        <li class="breadcrumb-item"><a href="{{ nav_url }}">{{ nav_text }}</a></li>
+        {% endfor %}
+        <li class="breadcrumb-item active">{{ items[-1] }}</li>
+    </ol>
 </nav>
 {% endif %}
 {% endmacro %}
