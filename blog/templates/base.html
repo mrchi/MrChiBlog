@@ -1,3 +1,11 @@
+{% set nav_menu = (
+        ("main.index", "首页"),
+        ("#", "系列"),
+        ("#", "标签"),
+        ("#", "关于我"),
+    )
+%}
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 
@@ -23,17 +31,15 @@
 {% block navbar %}
     <nav class="navbar navbar-expand-sm navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="#">我菜故我在</a>
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">我菜故我在</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbar">
                 <nav class="nav mr-auto nav-pills nav-fill">
-                    <a class="nav-item nav-link" href="#">首页</a>
-                    <a class="nav-item nav-link" href="#">归档</a>
-                    <a class="nav-item nav-link" href="#">系列</a>
-                    <a class="nav-item nav-link" href="#">标签</a>
-                    <a class="nav-item nav-link" href="#">关于我</a>
+                {% for endpoint, nav_text in nav_menu %}
+                    <a class="nav-item nav-link {% if active_menu == endpoint %}active{% endif %}" href="{{ url_for(endpoint) if endpoint != '#' else endpoint }}">{{ nav_text }}</a>
+                {% endfor %}
                 </nav>
                 <form class="form-inline">
                     <input class="form-control mr-sm-2" type="search" placeholder="搜索" aria-label="Search">
