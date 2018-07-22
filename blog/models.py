@@ -2,6 +2,7 @@
 
 from urllib.parse import urljoin
 
+from markdown import markdown
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -31,3 +32,25 @@ class Post(db.Model):
     coding_path = db.Column(db.String(256), nullable=False, unique=True)
     status = db.Column(db.Integer, nullable=False, default=0)   # 0:未公开，1:公开，2:删除
     author_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
+
+
+@db.event.listens_for(Post.content, "set")
+def on_changed_md(target, value, oldvalue, initiator):
+    """转换 markdown 为 html"""
+    extensions = [
+        "markdown.extensions.fenced_code",
+        "markdown.extensions.codehilite",
+        "markdown.extensions.sane_lists",
+        "markdown.extensions.smarty",
+        "markdown.extensions.tables",
+    ]
+    extension_configs = {
+        "markdown.extensions.codehilite": {"linenums": True},
+    }
+    target.html_content = markdown(
+        value,
+        output_format="html5",
+        extensions=extensions,
+        extension_configs=extension_configs,
+        strip=True,
+    )
