@@ -20,7 +20,7 @@
 </head>
 
 <body>
-    {% block navbar %}
+{% block navbar %}
     <nav class="navbar navbar-expand-sm navbar-light">
         <div class="container">
             <a class="navbar-brand" href="#">我菜故我在</a>
@@ -41,18 +41,18 @@
             </div>
         </div>
     </nav>
-    {% endblock %}
+{% endblock %}
 
-    {% block content %}
+{% block content %}
     <div class="container mt20">
         <div class="row">
             <div class="col-md-9">{% block main %}{% endblock %}</div>
             <div class="col-md-3">{% block sidebar %}{% endblock %}</div>
         </div>
     </div>
-    {% endblock %}
+{% endblock %}
 
-    {% block footer %}
+{% block footer %}
     <footer id="footer">
         <div class="container">
             Powered by <a href="http://flask.pocoo.org/">Flask</a>.
@@ -60,12 +60,12 @@
             Copyright © 2018 MrChi
         </div>
     </footer>
-    {% endblock %}
+{% endblock %}
 
     <script src="{{ url_for('static', filename='libs/jQuery/3.3.1/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ url_for('static', filename='libs/Bootstrap/4.1.2/bootstrap.bundle.min.js') }}"></script>
 
-    {% block scripts %}{% endblock %}
+{% block scripts %}{% endblock %}
 </body>
 
 </html>
