@@ -55,6 +55,8 @@ a:hover {
     background-color: #fafafa;
 }
 
+/* 面包屑导航 */
+
 .breadcrumb {
     background-color: transparent;
     border-bottom: 1px solid #EEE;
@@ -62,15 +64,22 @@ a:hover {
     padding-left: 0;
 }
 
-.page-item .page-link {
+/* 分页导航 */
+
+.pagination {
+    font-size: 13px;
+    margin: 30px auto;
+}
+
+.pagination .page-item .page-link {
     color: #159962;
 }
 
-.page-item .page-link:hover {
+.pagination .page-item .page-link:hover {
     color: #175940;
 }
 
-.page-item.active .page-link {
+.pagination .page-item.active .page-link {
     color: #FFF;
     background-color: #159962;
     border-color: transparent;
@@ -79,7 +88,7 @@ a:hover {
 /* 文章列表 */
 
 .stream-list {
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
 }
 
 .stream-item {
