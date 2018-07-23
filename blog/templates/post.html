@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as macros %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block main %}
+<div class="post">
+    <h1 class="post-title">{{ post.title }}</h1>
+    <ul class="list-inline post-info">
+        <li class="list-inline-item">
+            <a href="#">
+                <img src="{{ post.author.avatar_url }}" class="avatar">
+                {{ post.author.username }}
+            </a>
+        </li>
+        <li class="list-inline-item">
+            更新于
+            <span>{{ post.last_update.strftime('%Y年%m月%d日') }}</span>
+        </li>
+    </ul>
+    <div class="post-content">
+        {{ post.html_content|safe }}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}

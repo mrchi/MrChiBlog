@@ -5,6 +5,7 @@ html {
 
 body {
     margin-bottom: 60px;
+    color: #333;
 }
 
 /* 公共标签 */
@@ -110,7 +111,7 @@ a:hover {
     color: #017e66;
 }
 
-.stream-item .author {
+.stream-item .info {
     margin: 10px 0 5px;
     color: #999;
 }
@@ -127,6 +128,132 @@ a:hover {
     -webkit-box-orient: vertical;
 */
 }
+
+/* 文章内容 */
+
+.post-title {
+    padding: 12px 0;
+    font-size: 34px;
+    margin: 0;
+}
+
+.post-info {
+    margin: 5px 0 5px;
+    color: #999;
+    font-size: 14px;
+}
+
+.post-content {
+    margin: 30px 0 20px;
+    line-height: 1.8;
+    font-size: 15px;
+}
+
+.post-content h1, .post-content h2 {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.post-content h1, .post-content h2, .post-content h3 {
+    margin: 1.5em 0 0;
+}
+
+.post-content h3, .post-content h4, .post-content p, .post-content ul, .post-content ol, .post-content pre, .post-content blockquote, .post-content table {
+    margin: 1.5em 0;
+}
+
+.post-content h1 {
+    font-size: 1.75em;
+    line-height: 1.5em;
+}
+
+.post-content h2 {
+    font-size: 1.5em;
+    line-height: 1.25em;
+}
+
+.post-content h3 {
+    font-size: 1.25em;
+    line-height: 1em;
+}
+
+.post-content h4 {
+    font-size: 1em;
+    line-height: 0.86em;
+}
+
+.post-content blockquote {
+    border-left: 2px solid #009A61;
+    padding: 10px 20px;
+    background: #F6F6F6;
+    color: #555;
+    font-size: 1em;
+}
+
+.post-content blockquote p {
+    margin: 0;
+}
+
+.post-content pre {
+    padding: 1em;
+    border: none;
+    overflow: auto;
+    line-height: 1.45;
+    position: relative;
+    background: #F6F6F6;
+}
+
+.post-content pre, .post-content code {
+    font-size: 0.93em;
+}
+
+.post-content code {
+    padding: 2px 4px;
+    color: #c7254e;
+    background-color: #f9f2f4;
+    border-radius: 4px;
+}
+
+.post-content pre code {
+    padding: 0;
+    color: inherit;
+    background-color: transparent;
+    border-radius: 0;
+}
+
+.post-content ul, .post-content ol {
+    margin-left: 3em;
+    padding-left: 0;
+}
+
+.post-content ul li, .post-content ol li {
+    margin: 0.3em 0;
+}
+
+.post-content img {
+    padding: 3px;
+    max-width: 100%;
+    vertical-align: middle;
+}
+
+.post-content hr {
+    margin: 1.5em auto;
+    border-top: 2px dotted #eee;
+}
+
+.post-content table {
+    width: 100%;
+}
+
+.post-content table th, .post-content table td {
+    border: 1px solid #E6E6E6;
+    padding: 5px 8px;
+}
+
+.post-content table th {
+    background-color: #F3F3F3;
+}
+
 
 /* 底栏 */
 
