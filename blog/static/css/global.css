@@ -255,6 +255,47 @@ a:hover {
     background-color: #F3F3F3;
 }
 
+/* 文章目录 */
+
+#toc {
+    margin: 12px 0;
+    border-left: 1px solid #eee;
+}
+
+#toc .title {
+    padding-bottom: 10px;
+    padding-left: 20px;
+    font-weight: bold;
+}
+
+#post-toc a {
+    display: block;
+    padding: 3px 0;
+    color: #000;
+    font-size: 14px;
+}
+
+#post-toc a.active {
+    color: #009A61;
+    background-color: #F3F3F3;
+    border-left: 2px solid #009A61;
+}
+
+#post-toc .toc-h1 {
+    padding-left: 20px;
+}
+
+#post-toc .toc-h2 {
+    padding-left: 40px;
+}
+
+#post-toc .toc-h3 {
+    padding-left: 60px;
+}
+
+#post-toc .toc-h4 {
+    padding-left: 80px;
+}
 
 /* 底栏 */
 
