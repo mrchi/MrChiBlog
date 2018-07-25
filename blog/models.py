@@ -43,6 +43,7 @@ def on_changed_md(target, value, oldvalue, initiator):
         "markdown.extensions.sane_lists",
         "markdown.extensions.smarty",
         "markdown.extensions.tables",
+        "markdown.extensions.toc",
     ]
     extension_configs = {
         "markdown.extensions.codehilite": {"linenums": True},
