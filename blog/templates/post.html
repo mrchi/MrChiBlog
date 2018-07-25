@@ -5,8 +5,8 @@
 
 {% block main %}
 <div class="post">
-    <h1 class="post-title">{{ post.title }}</h1>
-    <ul class="list-inline post-info">
+    <h1 id="post-title">{{ post.title }}</h1>
+    <ul class="list-inline" id="post-info">
         <li class="list-inline-item">
             <a href="#">
                 <img src="{{ post.author.avatar_url }}" class="avatar">
@@ -18,7 +18,7 @@
             <span>{{ post.last_update.strftime('%Y年%m月%d日') }}</span>
         </li>
     </ul>
-    <div class="post-content">
+    <div id="post-content">
         {{ post.html_content|safe }}
     </div>
 </div>
