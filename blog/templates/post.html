@@ -3,6 +3,11 @@
 
 {% block title %}{{ post.title }}{% endblock %}
 
+{% block styles %}
+{{ super() }}
+<link href="{{ url_for('static', filename='css/pygment.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block main %}
 <div class="post">
     <h1 id="post-title">{{ post.title }}</h1>

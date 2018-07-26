@@ -201,7 +201,8 @@ a:hover {
     overflow: auto;
     line-height: 1.45;
     position: relative;
-    background: #F6F6F6;
+    color: #f8f8f2;
+    /*background: #F6F6F6;*/
 }
 
 #post-content pre, #post-content code {
@@ -213,13 +214,6 @@ a:hover {
     color: #c7254e;
     background-color: #f9f2f4;
     border-radius: 4px;
-}
-
-#post-content pre code {
-    padding: 0;
-    color: inherit;
-    background-color: transparent;
-    border-radius: 0;
 }
 
 #post-content ul, #post-content ol {

@@ -12,6 +12,7 @@ flask-migrate = "*"
 celery = "*"
 redis = "*"
 markdown = "*"
+pygments = "*"
 
 [dev-packages]
 
