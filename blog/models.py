@@ -24,6 +24,9 @@ class User(db.Model):
     def avatar_url(self):
         return urljoin("https://coding.net", self.avatar)
 
+    def __repr__(self):
+        return "<User %r>" % self.username
+
 
 class Post(db.Model):
     __tablename__ = "post"
@@ -37,6 +40,9 @@ class Post(db.Model):
     permalink = db.Column(db.String(128), nullable=False, unique=True)
     status = db.Column(db.Integer, nullable=False, default=0)   # 0:未公开，1:公开，2:删除
     author_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
+
+    def __repr__(self):
+        return "<Post %r>" % self.title
 
     def __init__(self, **kw):
         super(Post, self).__init__(**kw)
