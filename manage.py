@@ -8,7 +8,7 @@ from flask_migrate import Migrate
 
 from blog import create_app
 from blog.models import db, Post, User
-from blog.celerys.tasks import update_posts
+from blog.celerys.update_tasks import update_posts
 from config import config
 
 app = create_app(config[os.getenv('FLASK_ENV') or 'default'])

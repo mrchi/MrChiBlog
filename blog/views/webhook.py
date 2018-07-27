@@ -3,7 +3,7 @@
 from flask import Blueprint, jsonify, request, current_app, g
 
 from blog.libs.coding import CodingSignature
-from blog.celerys.tasks import remove_posts, update_posts
+from blog.celerys.update_tasks import remove_posts, update_posts
 from .common import check_args
 
 bp_webhook = Blueprint("webhook", __name__, url_prefix="/webhook")

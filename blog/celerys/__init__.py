@@ -1,6 +1,6 @@
 # coding=utf-8
 
-from .tasks import celery_update
+from .update_tasks import celery_update
 
 celery_apps = [celery_update]
 
