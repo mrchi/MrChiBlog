@@ -55,7 +55,7 @@
 
 {% for post in posts %}
     <div class="stream-item">
-        <h1 class="title"><a href="#">{{ post.title }}</a></h1>
+        <h1 class="title"><a href="{{ url_for('main.content', permalink=post.permalink) }}">{{ post.title }}</a></h1>
         <ul class="list-inline info">
             <li class="list-inline-item">
                 <a href="#">
