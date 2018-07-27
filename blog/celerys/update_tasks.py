@@ -11,6 +11,7 @@ from blog.libs.coding import CodingPost
 
 celery_update = Celery("celery_update")
 celery_update.config_from_object(celeryconfig)
+celery_update.conf.update(task_default_queue="update_queue")
 
 
 @celery_update.task(shared=False)
