@@ -60,7 +60,7 @@
 
     $(window).scroll(function() {
         var toc = $('#toc');
-        if ($(window).scrollTop() >= toc_position){
+        if ($(window).scrollTop() >= toc_position-12){
             toc.css('width', toc_width);
             toc.css('top', 0);
             toc.css('position', 'fixed');
