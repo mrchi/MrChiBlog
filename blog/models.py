@@ -1,8 +1,10 @@
 # coding=utf-8
 
+import hmac
 from urllib.parse import urljoin
 
 from markdown import markdown
+from flask import current_app
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.mysql import LONGTEXT
 
@@ -32,8 +34,18 @@ class Post(db.Model):
     html_content = db.Column(LONGTEXT, nullable=False, default="")
     last_update = db.Column(db.DateTime, nullable=False)
     coding_path = db.Column(db.String(256), nullable=False, unique=True)
+    permalink = db.Column(db.String(128), nullable=False, unique=True)
     status = db.Column(db.Integer, nullable=False, default=0)   # 0:未公开，1:公开，2:删除
     author_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
+
+    def __init__(self, **kw):
+        super(Post, self).__init__(**kw)
+        if self.coding_path is not None and self.permalink is None:
+            self.permalink = hmac.new(
+                current_app.config["HMAC_KEY"].encode("utf-8"),
+                self.coding_path.encode("utf-8"),
+                'md5',
+            ).hexdigest()
 
 
 @db.event.listens_for(Post.content, "set")

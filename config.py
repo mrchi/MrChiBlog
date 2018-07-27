@@ -10,6 +10,8 @@ class Config:
     ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
     WEBHOOK_TOKEN = os.environ.get("WEBHOOK_TOKEN")
 
+    HMAC_KEY = os.environ.get("HMAC_KEY")
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     @staticmethod
