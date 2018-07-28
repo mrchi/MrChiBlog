@@ -21,24 +21,27 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URI') or \
-        'sqlite:///./data-dev.sqlite'
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DEV_DATABASE_URI") or \
+        "sqlite:///./data-dev.sqlite"
+    REDIS_URL = os.environ.get("DEV_REDIS_URI") or "redis://127.0.0.1:6379/0"
 
 
 class TestingConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URI') or \
-        'sqlite:///./data-test.sqlite'
+    SQLALCHEMY_DATABASE_URI = os.environ.get("TEST_DATABASE_URI") or \
+        "sqlite:///./data-test.sqlite"
+    REDIS_URL = os.environ.get("TEST_REDIS_URI")
 
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('PROD_DATABASE_URI') or \
-        'sqlite:///./data-prod.sqlite'
+    SQLALCHEMY_DATABASE_URI = os.environ.get("PROD_DATABASE_URI") or \
+        "sqlite:///./data-prod.sqlite"
+    REDIS_URL = os.environ.get("PROD_REDIS_URI")
 
 
 config = {
-    'development': DevelopmentConfig,
-    'testing': TestingConfig,
-    'production': ProductionConfig,
-    'default': DevelopmentConfig
+    "development": DevelopmentConfig,
+    "testing": TestingConfig,
+    "production": ProductionConfig,
+    "default": DevelopmentConfig
 }

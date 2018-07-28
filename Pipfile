@@ -13,6 +13,7 @@ celery = "*"
 redis = "*"
 markdown = "*"
 pygments = "*"
+flask-redis = "*"
 
 [dev-packages]
 

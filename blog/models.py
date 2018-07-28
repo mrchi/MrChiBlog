@@ -6,10 +6,12 @@ from urllib.parse import urljoin
 from markdown import markdown
 from flask import current_app
 from flask_sqlalchemy import SQLAlchemy
+from flask_redis import FlaskRedis
 from sqlalchemy.dialects.mysql import LONGTEXT
 
 
 db = SQLAlchemy()
+redis = FlaskRedis()
 
 
 class User(db.Model):
