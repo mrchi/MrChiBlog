@@ -1,8 +1,9 @@
 # coding=utf-8
 
 from .update_tasks import celery_update
+from .notify_tasks import celery_notify
 
-celery_apps = [celery_update]
+celery_apps = [celery_update, celery_notify]
 
 
 def init_app(app):
