@@ -1,6 +1,10 @@
 # coding=utf-8
 
-from flask import Blueprint, render_template, g
+import traceback
+
+from flask import Blueprint, render_template, g, request
+
+from blog.celerys.notify_tasks import send_500_notify
 
 bp_error = Blueprint("error", __name__)
 
@@ -29,4 +33,8 @@ def http_404(e):
 @bp_error.app_errorhandler(500)
 def http_500(e):
     tip = "哎呀，服务器提出了一个问题 ಠ_ಠ"
+    send_500_notify.delay(
+        request.path,
+        traceback.format_exception_only(type(e), e)[-1],
+    )
     return render_template("error.html", code=500, tip=tip), 500

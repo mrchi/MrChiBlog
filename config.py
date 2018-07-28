@@ -24,6 +24,7 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get("DEV_DATABASE_URI") or \
         "sqlite:///./data-dev.sqlite"
     REDIS_URL = os.environ.get("DEV_REDIS_URI") or "redis://127.0.0.1:6379/0"
+    DINGTALK_ROBOT_TOKEN = os.environ.get("DEV_DINGTALK_TOKEN")
 
 
 class TestingConfig(Config):
@@ -31,12 +32,14 @@ class TestingConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get("TEST_DATABASE_URI") or \
         "sqlite:///./data-test.sqlite"
     REDIS_URL = os.environ.get("TEST_REDIS_URI")
+    DINGTALK_ROBOT_TOKEN = os.environ.get("TEST_DINGTALK_TOKEN")
 
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get("PROD_DATABASE_URI") or \
         "sqlite:///./data-prod.sqlite"
     REDIS_URL = os.environ.get("PROD_REDIS_URI")
+    DINGTALK_ROBOT_TOKEN = os.environ.get("PROD_DINGTALK_TOKEN")
 
 
 config = {
