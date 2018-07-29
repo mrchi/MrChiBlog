@@ -121,6 +121,7 @@ a:hover {
     margin: 5px 0 0;
     color: #777;
     line-height: 1.6;
+    word-wrap: break-word;
 /*
     display: -webkit-box;
     overflow: hidden;
@@ -148,6 +149,7 @@ a:hover {
     margin: 30px 0 20px;
     line-height: 1.8;
     font-size: 15px;
+    word-wrap: break-word;
 }
 
 #post-content h1, #post-content h2 {
