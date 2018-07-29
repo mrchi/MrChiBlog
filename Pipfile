@@ -14,6 +14,8 @@ redis = "*"
 markdown = "*"
 pygments = "*"
 flask-redis = "*"
+whoosh = "*"
+jieba = "*"
 
 [dev-packages]
 
