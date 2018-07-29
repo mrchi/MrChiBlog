@@ -239,7 +239,9 @@ a:hover {
 }
 
 #post-content table {
+    display: block;
     width: 100%;
+    overflow-x: auto;
 }
 
 #post-content table th, #post-content table td {
