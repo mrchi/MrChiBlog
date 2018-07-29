@@ -18,7 +18,7 @@
     <meta name="author" content="MrChi">
     {% block metas %}{% endblock %}
 
-    <title>{% block title %}{% endblock %} - MrChi</title>
+    <title>{% block title %}{% endblock %} | MrChi</title>
 
     <link href="{{ url_for('static', filename='img/favicon.ico') }}" rel="icon" >
     <link href="{{ url_for('static', filename='libs/Bootstrap/4.1.2/bootstrap.min.css') }}" rel="stylesheet">
@@ -36,14 +36,15 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbar">
-                <nav class="nav mr-auto nav-pills nav-fill">
+                <nav class="nav nav-pills nav-fill mr-auto">
                 {% for endpoint, nav_text in nav_menu %}
                     <a class="nav-item nav-link {% if active_menu == endpoint %}active{% endif %}" href="{{ url_for(endpoint) if endpoint != '#' else endpoint }}">{{ nav_text }}</a>
                 {% endfor %}
                 </nav>
-                <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="search" placeholder="搜索" aria-label="Search">
+                <form class="form-inline mr-4" method="get" action="{{ url_for('main.search') }}">
+                    <input class="form-control" name="q" type="search" placeholder="搜索" aria-label="Search" style="width: 250px;">
                 </form>
+                <div class="col-lg-3 d-none d-lg-block"></div>
             </div>
         </div>
     </nav>
