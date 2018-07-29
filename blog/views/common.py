@@ -25,17 +25,16 @@ def check_args(*expacted_args):
                     raise ValueError("arg_type only support {types}.".format(
                         types=", ".join(_allowed_types),
                     ))
-                # 检查 arg_value 参数
-                # 1. arg_value参数存在
+                # 如果 arg_value 存在且类型正确，存入 g.args 中，否则 correct=False
                 arg_value = request_args.get(arg_name)
-                if arg_value is None:
-                    correct = False
-                # 2. arg_value类型正确
-                try:
-                    arg_value = eval(arg_type)(arg_value)
-                    g.args[arg_name] = arg_value
-                    correct = True
-                except (ValueError, TypeError):
+                if arg_value is not None:
+                    try:
+                        arg_value = eval(arg_type)(arg_value)
+                        g.args[arg_name] = arg_value
+                        correct = True
+                    except (ValueError, TypeError):
+                        correct = False
+                else:
                     correct = False
                 # 如果不是可选参数并且参数检查失败，抛出 HTTP 400 错误
                 if not optional and not correct:
