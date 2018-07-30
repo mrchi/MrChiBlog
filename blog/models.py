@@ -8,6 +8,7 @@ from flask import current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_redis import FlaskRedis
 from sqlalchemy.dialects.mysql import LONGTEXT
+from jieba.analyse import ChineseAnalyzer
 
 
 db = SQLAlchemy()
@@ -32,6 +33,8 @@ class User(db.Model):
 
 class Post(db.Model):
     __tablename__ = "post"
+    __searchable__ = ["title", "content"]
+    __analyzer__ = ChineseAnalyzer()
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(128), unique=True, nullable=False)
@@ -52,7 +55,7 @@ class Post(db.Model):
             self.permalink = hmac.new(
                 current_app.config["HMAC_KEY"].encode("utf-8"),
                 self.coding_path.encode("utf-8"),
-                'md5',
+                "md5",
             ).hexdigest()
 
 

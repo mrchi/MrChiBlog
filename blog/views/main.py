@@ -40,3 +40,25 @@ def content(permalink):
         "post.html",
         post=post,
     )
+
+
+@bp_main.route("/search")
+@check_args("q:?str", "page:?int")
+def search():
+    """全文搜索文章标题和内容"""
+    keyword = g.args.get("q", "").strip()
+    page = g.args.get("page", 1)
+    per_page = 10
+    pagination = Post.query \
+        .whoosh_search(keyword) \
+        .filter_by(status=1) \
+        .paginate(page, per_page, error_out=False)
+
+    posts = pagination.items
+    return render_template(
+        "search.html",
+        keyword=keyword,
+        posts=posts,
+        pagination=pagination,
+        endpoint="main.search",
+    )

@@ -103,7 +103,11 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-.idea
+# PyCharm settings
+.idea/
 
+# databases
 *.sqlite
 
+# whoosh index file path
+*_whoosh_idx/

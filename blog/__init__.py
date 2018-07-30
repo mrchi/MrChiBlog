@@ -1,6 +1,7 @@
 # coding=utf-8
 
 from flask import Flask
+import flask_whooshalchemyplus
 
 from blog import views
 from blog import celerys
@@ -13,6 +14,7 @@ def create_app(config_obj):
     app.config.from_object(config_obj)
 
     db.init_app(app)
+    flask_whooshalchemyplus.init_app(app)
     redis.init_app(app)
 
     views.init_app(app)
