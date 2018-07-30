@@ -16,6 +16,7 @@ pygments = "*"
 flask-redis = "*"
 whoosh = "*"
 jieba = "*"
+flask-whooshalchemyplus = "*"
 
 [dev-packages]
 

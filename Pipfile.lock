@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "89c16ab8a8e74b6fdb46644bdb23a25f8b648cd1781c44d87638b537a4c301c5"
+            "sha256": "3906607dbd6a9444e45f9d8374605cbc091f3fd2fea84f048b7e73cf5286dc2e"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -42,6 +42,12 @@
                 "sha256:ed65448da5877b5558f19d2f7f11f8355ea76b3e63e1c0a6059f47cfae5f1c84"
             ],
             "version": "==3.5.0.4"
+        },
+        "blinker": {
+            "hashes": [
+                "sha256:471aee25f3992bd325afa3772f1063dbdbbca947a041b8b89466dc00d606f8b6"
+            ],
+            "version": "==1.4"
         },
         "celery": {
             "hashes": [
@@ -165,6 +171,13 @@
             ],
             "index": "pypi",
             "version": "==2.3.2"
+        },
+        "flask-whooshalchemyplus": {
+            "hashes": [
+                "sha256:e6429253c4a768e635459ec87d2a7ce5b4e4b8045c8210edc83632ba02468b31"
+            ],
+            "index": "pypi",
+            "version": "==0.7.5"
         },
         "idna": {
             "hashes": [
