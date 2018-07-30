@@ -1,0 +1,76 @@
+{# 这里定义可以重复使用的宏组件，包括分页导航、面包屑导航、文章列表等。 #}
+
+
+{% macro pagination_widget(pagination, endpoint) %}
+{% if pagination and pagination.pages > 1 %}
+<nav aria-label="page navigation">
+    <ul class="pagination justify-content-center">
+
+{% if pagination.has_prev %}
+        <li class="page-item"><a class="page-link" href="{{ url_for(endpoint, page=pagination.prev_num, **kwargs) }}">上一页</a></li>
+{% endif %}
+
+{% for p in pagination.iter_pages(1, 2, 3, 1) %}
+    {% if p %}
+        {% if p == pagination.page %}
+        <li class="page-item active">
+            <span class="page-link">{{ p }}</span>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for(endpoint, page=p, **kwargs) }}">{{ p }}</a>
+        </li>
+        {% endif %}
+    {% else %}
+        <li class="page-item disabled"><span class="page-link">...</span></li>
+    {% endif %}
+{% endfor %}
+
+{% if pagination.has_next %}
+        <li class="page-item"><a class="page-link" href="{{ url_for(endpoint, page=pagination.next_num, **kwargs) }}">下一页</a></li>
+{% endif %}
+
+    </ul>
+</nav>
+{% endif %}
+{% endmacro %}
+
+
+{% macro breadcrumb_widget(items) %}
+{% if items %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        {% for nav_url, nav_text in items[:-1] %}
+        <li class="breadcrumb-item"><a href="{{ nav_url }}">{{ nav_text }}</a></li>
+        {% endfor %}
+        <li class="breadcrumb-item active">{{ items[-1] }}</li>
+    </ol>
+</nav>
+{% endif %}
+{% endmacro %}
+
+
+{% macro post_stream_widget(posts) %}
+<div class="stream-list">
+
+{% for post in posts %}
+    <div class="stream-item">
+        <h1 class="title"><a href="{{ url_for('main.content', permalink=post.permalink) }}">{{ post.title }}</a></h1>
+        <ul class="list-inline info">
+            <li class="list-inline-item">
+                <a href="#">
+                    <img src="{{ post.author.avatar_url }}" class="avatar">
+                    {{ post.author.username }}
+                </a>
+            </li>
+            <li class="list-inline-item">
+                更新于
+                <span>{{ post.last_update.strftime('%Y年%m月%d日') }}</span>
+            </li>
+        </ul>
+        <p class="summary">{{ post.html_content|striptags|truncate(200) }}</p>
+    </div>
+{% endfor %}
+
+</div>
+{% endmacro%}

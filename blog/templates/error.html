@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}HTTP {{ code }}{% endblock %}
+
+{% block styles %}
+<link href="{{ url_for('static', filename='css/error.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block content %}
+<div id="box">
+    <div>
+        <h1>HTTP {{ code }}</h1>
+        <p>{{ tip }}</p>
+        <hr>
+        <p class="text-center">
+            <a href="{{ url_for('main.index') }}" class="btn btn-success">返回首页</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<div id="footer" class="text-center">© MrChi</div>
+{% endblock %}

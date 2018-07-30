@@ -1,0 +1,22 @@
+body {
+    background-color: #f3f3f3;
+}
+
+.text-center {
+    text-align: center;
+}
+
+#box {
+    margin: 180px auto 0;
+    padding: 40px;
+    width: 540px;
+    background-color: #fff;
+}
+
+#footer {
+    margin: 15px 0 0;
+    color: #999;
+    font-size: 13px;
+}
+
+

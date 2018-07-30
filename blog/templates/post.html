@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as macros %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link href="{{ url_for('static', filename='css/pygment.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+<div class="post">
+    <h1 id="post-title">{{ post.title }}</h1>
+    <ul class="list-inline" id="post-info">
+        <li class="list-inline-item">
+            <a href="#">
+                <img src="{{ post.author.avatar_url }}" class="avatar">
+                {{ post.author.username }}
+            </a>
+        </li>
+        <li class="list-inline-item">
+            更新于
+            <span>{{ post.last_update.strftime('%Y年%m月%d日') }}</span>
+        </li>
+    </ul>
+    <div id="post-content">
+        {{ post.html_content|safe }}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block sidebar %}
+<div id="toc" class="d-none d-lg-block">
+    <div class="title">目录</div>
+    <nav class="nav flex-column" id="post-toc"></nav>
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        var headers = $('#post-content').find('h1, h2, h3, h4');
+        var post_toc = $('#post-toc');
+        var header_level = 'h1';
+        // 生成目录
+        for (var header of headers) {
+            var new_a = $('<a class="nav-link"></a>');
+            new_a.addClass('toc-' + header.localName);
+            new_a.attr('href', '#' + header.getAttribute('id'));
+            new_a.text(header.innerText);
+            post_toc.append(new_a);
+        };
+        // 绑定滚动监听
+        $('body').scrollspy({ target: '#post-toc' });
+    });
+
+    var toc_position = $('#toc').offset().top;
+    var toc_width = $('#toc').width();
+
+    $(window).scroll(function() {
+        var toc = $('#toc');
+        if ($(window).scrollTop() >= toc_position-12){
+            toc.css('width', toc_width);
+            toc.css('top', 0);
+            toc.css('position', 'fixed');
+        } else {
+            toc.css('width', '');
+            toc.css('top', '');
+            toc.css('position', '');
+        };
+    });
+</script>
+{% endblock %}

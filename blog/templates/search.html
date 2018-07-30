@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as macros %}
+
+{% set active_menu = "main.index" %}
+{% set breadcrumb_items = (
+        (url_for("main.index"), "首页"),
+        "关键词 %r 的搜索结果" % keyword ,
+    )
+%}
+
+{% block title %}搜索 {{ keyword }}{% endblock %}
+
+{% block main %}
+{{ macros.breadcrumb_widget(breadcrumb_items) }}
+{{ macros.post_stream_widget(posts) }}
+{{ macros.pagination_widget(pagination, endpoint, q=keyword) }}
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}

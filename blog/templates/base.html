@@ -1,0 +1,78 @@
+{% set nav_menu = (
+        ("main.index", "首页"),
+        ("#", "系列"),
+        ("#", "标签"),
+        ("#", "关于我"),
+    )
+%}
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="纸上得来终觉浅。">
+    <meta name="keywords" content="">
+    <meta name="author" content="MrChi">
+    {% block metas %}{% endblock %}
+
+    <title>{% block title %}{% endblock %} | MrChi</title>
+
+    <link href="{{ url_for('static', filename='img/favicon.ico') }}" rel="icon" >
+    <link href="{{ url_for('static', filename='libs/Bootstrap/4.1.2/bootstrap.min.css') }}" rel="stylesheet">
+    {% block styles %}
+    <link href="{{ url_for('static', filename='css/global.css') }}" rel="stylesheet">
+    {% endblock %}
+</head>
+
+<body>
+{% block navbar %}
+    <nav class="navbar navbar-expand-sm navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">我菜故我在</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar">
+                <nav class="nav nav-pills nav-fill mr-auto">
+                {% for endpoint, nav_text in nav_menu %}
+                    <a class="nav-item nav-link {% if active_menu == endpoint %}active{% endif %}" href="{{ url_for(endpoint) if endpoint != '#' else endpoint }}">{{ nav_text }}</a>
+                {% endfor %}
+                </nav>
+                <form class="form-inline mr-4" method="get" action="{{ url_for('main.search') }}">
+                    <input class="form-control" name="q" type="search" placeholder="搜索" aria-label="Search" style="width: 250px;">
+                </form>
+                <div class="col-lg-3 d-none d-lg-block"></div>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container mt20">
+        <div class="row">
+            <div class="col-lg-9">{% block main %}{% endblock %}</div>
+            <div class="col-lg-3">{% block sidebar %}{% endblock %}</div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <footer id="footer">
+        <div class="container">
+            Powered by <a href="http://flask.pocoo.org/">Flask</a>.
+            <br>
+            Copyright © 2018 MrChi
+        </div>
+    </footer>
+{% endblock %}
+
+    <script src="{{ url_for('static', filename='libs/jQuery/3.3.1/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='libs/Bootstrap/4.1.2/bootstrap.bundle.min.js') }}"></script>
+
+{% block script %}{% endblock %}
+</body>
+
+</html>
