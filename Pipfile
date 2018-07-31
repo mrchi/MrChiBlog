@@ -17,6 +17,7 @@ flask-redis = "*"
 whoosh = "*"
 jieba = "*"
 flask-whooshalchemyplus = "*"
+gunicorn = "*"
 
 [dev-packages]
 
