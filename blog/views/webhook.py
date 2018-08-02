@@ -23,7 +23,7 @@ def http_403(e):
 
 
 @bp_webhook.route("/coding", methods=["POST"])
-@check_args("commits:list?", "head_commit:dict")
+@check_args("commits:list?", "head_commit:?dict")
 def coding_webhook():
     # 鉴权
     is_ok = CodingSignature.check_webhook_signature(
