@@ -33,14 +33,16 @@
 {% block sidebar %}
 <div id="toc" class="d-none d-lg-block">
     <div class="title">目录</div>
-    <nav class="nav flex-column" id="post-toc"></nav>
+    <div style="max-height: calc(100vh - 120px); overflow: hidden; overflow-y: scroll;">
+        <nav class="nav flex-column" id="post-toc"></nav>
+    </div>
 </div>
 {% endblock %}
 
 {% block script %}
 <script type="text/javascript">
     $(document).ready(function() {
-        var headers = $('#post-content').find('h1, h2, h3, h4');
+        var headers = $('#post-content').find('h1, h2, h3');
         var post_toc = $('#post-toc');
         var header_level = 'h1';
         // 生成目录
@@ -58,6 +60,7 @@
     var toc_position = $('#toc').offset().top;
     var toc_width = $('#toc').width();
 
+    // 滚动事件，修改目录部分的 position
     $(window).scroll(function() {
         var toc = $('#toc');
         if ($(window).scrollTop() >= toc_position-12){
