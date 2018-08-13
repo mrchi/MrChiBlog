@@ -35,6 +35,11 @@ a:hover {
     border-radius: 50%;
 }
 
+.sidebar-card {
+    font-size: 16px;
+    font-family: "Monaco", "Consolas", STSong;
+}
+
 /* 导航条 */
 
 .nav-item:hover {
