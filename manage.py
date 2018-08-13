@@ -4,7 +4,7 @@
 import os
 
 import click
-from flask_migrate import Migrate
+from flask_migrate import Migrate, upgrade
 
 from blog import create_app
 from blog.models import db, redis, Post, User
@@ -25,7 +25,7 @@ def make_shell_context():
 def deploy(dropdb):
     if dropdb:
         db.drop_all()
-        db.create_all()
+        upgrade()
         print("Database is droped and rebuilded.")
     print("---------- Start update. ----------")
     update_posts([], update_all=True)
