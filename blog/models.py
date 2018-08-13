@@ -31,12 +31,12 @@ class User(db.Model):
         return "<User %r>" % self.username
 
 
-class Series(db.Model):
-    __tablename__ = "series"
+class Category(db.Model):
+    __tablename__ = "category"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(128), unique=True, nullable=False)
-    posts = db.relationship("Post", backref="series", lazy="dynamic")
+    posts = db.relationship("Post", backref="category", lazy="dynamic")
 
 
 class Post(db.Model):
@@ -53,8 +53,8 @@ class Post(db.Model):
     permalink = db.Column(db.String(128), nullable=False, unique=True)
     status = db.Column(db.Integer, nullable=False, default=0)   # 0:未公开，1:公开，2:删除
     author_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
-    series_id = db.Column(db.Integer, db.ForeignKey(Series.id))
-    series_order = db.Column(db.Integer)
+    category_id = db.Column(db.Integer, db.ForeignKey(Category.id))
+    category_order = db.Column(db.Integer)
 
     def __repr__(self):
         return "<Post %r>" % self.title
