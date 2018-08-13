@@ -1,12 +1,13 @@
 """add post and user
 
 Revision ID: 3b8a99ed18ef
-Revises: 
+Revises:
 Create Date: 2018-07-10 16:26:08.935347
 
 """
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy.dialects.mysql import LONGTEXT
 
 
 # revision identifiers, used by Alembic.
@@ -30,8 +31,8 @@ def upgrade():
     op.create_table('post',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('title', sa.String(length=128), nullable=False),
-    sa.Column('content', sa.Text(), nullable=False),
-    sa.Column('html_content', sa.Text(), nullable=False),
+    sa.Column('content', LONGTEXT(), nullable=False),
+    sa.Column('html_content', LONGTEXT(), nullable=False),
     sa.Column('last_update', sa.DateTime(), nullable=False),
     sa.Column('author_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['author_id'], ['user.id'], ),
