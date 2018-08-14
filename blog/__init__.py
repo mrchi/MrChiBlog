@@ -2,6 +2,7 @@
 
 from flask import Flask
 import flask_whooshalchemyplus
+import jieba
 
 from blog import views
 from blog import celerys
@@ -19,5 +20,7 @@ def create_app(config_obj):
 
     views.init_app(app)
     celerys.init_app(app)
+
+    jieba.initialize()
 
     return app
