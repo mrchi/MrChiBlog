@@ -55,6 +55,9 @@ class Category(db.Model):
     name = db.Column(db.String(128), unique=True, nullable=False)
     posts = db.relationship("Post", backref="category", lazy="dynamic")
 
+    def __repr__(self):
+        return "<Category %r>" % self.name
+
 
 class Label(db.Model):
     __tablename__ = "label"
@@ -67,6 +70,9 @@ class Label(db.Model):
         backref=db.backref("labels", lazy="dynamic"),
         lazy="dynamic",
     )
+
+    def __repr__(self):
+        return "<Label %r>" % self.name
 
 
 class Post(db.Model):
