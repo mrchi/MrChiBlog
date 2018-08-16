@@ -53,8 +53,7 @@ class Post(db.Model):
     permalink = db.Column(db.String(128), nullable=False, unique=True)
     status = db.Column(db.Integer, nullable=False, default=0)   # 0:未公开，1:公开，2:删除
     author_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
-    category_id = db.Column(db.Integer, db.ForeignKey(Category.id))
-    category_order = db.Column(db.Integer)
+    category_id = db.Column(db.Integer, db.ForeignKey(Category.id), nullable=False)
 
     def __repr__(self):
         return "<Post %r>" % self.title
