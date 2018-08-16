@@ -26,9 +26,7 @@
     </div>
 </div>
 <div class="card mt20 sidebar-card">
-    <div class="card-header">
-    分类
-    </div>
+    <div class="card-header">分类</div>
     <ul class="list-group list-group-flush">
         {% for category in categories %}
         <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
@@ -39,6 +37,17 @@
         </a>
         {% endfor %}
     </ul>
+</div>
+<div class="card mt20 sidebar-card">
+    <div class="card-header">标签（Top 20）</div>
+    <div class="card-body list-inline">
+        {% for label in labels[:20] %}
+        <a href="#" class="list-inline-item">
+            {{ label.name }}
+            <span class="badge badge-light">{{ label.posts.count() }}</span>
+        </a>
+        {% endfor %}
+    </div>
 </div>
 <div class="card mt20 sidebar-card">
     <div class="card-header">关于</div>
