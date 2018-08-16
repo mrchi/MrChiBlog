@@ -1,9 +1,10 @@
 # coding=utf-8
 
 import hmac
+from datetime import datetime
 from urllib.parse import urljoin
 
-from markdown import markdown
+from markdown import Markdown
 from flask import current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_redis import FlaskRedis
@@ -13,6 +14,23 @@ from jieba.analyse import ChineseAnalyzer
 
 db = SQLAlchemy()
 redis = FlaskRedis()
+
+md_converter = Markdown(
+    output_format="html5",
+    extensions=[
+        "markdown.extensions.fenced_code",      # 代码块
+        "markdown.extensions.codehilite",       # 代码块代码高亮
+        "markdown.extensions.sane_lists",       # 非混合列表
+        "markdown.extensions.smarty",           # 自动转译字符的 html 表示形式
+        "markdown.extensions.tables",           # 表格
+        "markdown.extensions.toc",              # 目录支持
+        "markdown.extensions.meta",             # Meta-data 支持
+    ],
+    extension_configs={
+        "markdown.extensions.codehilite": {"linenums": False},  # 不显示行号
+    },
+    strip=True,
+)
 
 
 class User(db.Model):
@@ -71,21 +89,4 @@ class Post(db.Model):
 @db.event.listens_for(Post.content, "set")
 def on_changed_md(target, value, oldvalue, initiator):
     """转换 markdown 为 html"""
-    extensions = [
-        "markdown.extensions.fenced_code",      # 代码块
-        "markdown.extensions.codehilite",       # 代码块代码高亮
-        "markdown.extensions.sane_lists",       # 非混合列表
-        "markdown.extensions.smarty",           # 自动转译字符的html表示形式
-        "markdown.extensions.tables",           # 表格
-        "markdown.extensions.toc",              # 目录支持
-    ]
-    extension_configs = {
-        "markdown.extensions.codehilite": {"linenums": False},  # 不显示行号
-    }
-    target.html_content = markdown(
-        value,
-        output_format="html5",
-        extensions=extensions,
-        extension_configs=extension_configs,
-        strip=True,
-    )
+    target.html_content = md_converter.convert(value)
