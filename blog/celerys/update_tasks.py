@@ -6,7 +6,7 @@ from celery import Celery
 from flask import current_app
 
 from . import celeryconfig
-from blog.models import db, Post, User
+from blog.models import db, Post, User, Category, md_converter
 from blog.libs.coding import CodingPost
 
 celery_update = Celery("celery_update")
@@ -49,22 +49,39 @@ def update_posts(updated_paths, update_all=False):
     # 查询已存在文章
     posts = Post.query.filter(Post.coding_path.in_(updated_paths)).all()
     posts = {i.coding_path: i for i in posts}
+
     for path in updated_paths:
         post = posts.get(path) or Post(coding_path=path)
-        # 获取文章内容
+
+        # 拉取文章信息
         data = coding.get_file_content(path)
+
         # 获取 Author 对象
         author_name = data["author"]["name"]
         author = User.query.filter_by(username=author_name).one_or_none() \
             or User(username=author_name)
         author.avatar = data["author"]["avatar"]
+
+        # 获取文章的 Meta-data 数据
+        content = data["content"]
+        html_content = md_converter.convert(content)
+        meta_data = md_converter.Meta
+
+        # 获取 Category 对象
+        category = meta_data["category"][0]
+        category = Category.query.filter_by(name=category).one_or_none() \
+            or Category(name=category)
+
+        # 获取 Label 对象
+
         # 更新文章
         post.title = data["title"]
-        post.content = data["content"]
+        post.content = content
+        post.html_content = html_content
         post.last_update = datetime.fromtimestamp(data["timestamp"]/1000)
         post.author = author
+        post.category = category
 
-        db.session.add(author)
         db.session.add(post)
         print(f"{post.title} is updated.")     # noqa
 
