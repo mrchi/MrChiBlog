@@ -16,7 +16,7 @@ def index():
     per_page = 10                   # 分页数量
     pagination = Post.query \
         .filter_by(status=1) \
-        .order_by(Post.last_update.desc()) \
+        .order_by(Post.update_at.desc()) \
         .paginate(page, per_page, error_out=False)
 
     posts = pagination.items

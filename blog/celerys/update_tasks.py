@@ -78,7 +78,7 @@ def update_posts(updated_paths, update_all=False):
         post.title = data["title"]
         post.content = content
         post.html_content = html_content
-        post.last_update = datetime.fromtimestamp(data["timestamp"]/1000)
+        post.update_at = datetime.fromtimestamp(data["timestamp"]/1000)
         post.author = author
         post.category = category
 
