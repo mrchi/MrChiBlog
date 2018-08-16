@@ -1,7 +1,6 @@
 # coding=utf-8
 
 import hmac
-from datetime import datetime
 from urllib.parse import urljoin
 
 from markdown import Markdown
