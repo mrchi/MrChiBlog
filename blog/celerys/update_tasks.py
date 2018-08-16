@@ -6,7 +6,7 @@ from celery import Celery
 from flask import current_app
 
 from . import celeryconfig
-from blog.models import db, Post, User, Category, md_converter
+from blog.models import db, Post, User, Category, Label, md_converter
 from blog.libs.coding import CodingPost
 
 celery_update = Celery("celery_update")
@@ -72,7 +72,12 @@ def update_posts(updated_paths, update_all=False):
         category = Category.query.filter_by(name=category).one_or_none() \
             or Category(name=category)
 
-        # 获取 Label 对象
+        # 获取 Label 对象列表
+        labels = set()
+        for label in meta_data["labels"]:
+            label = Label.query.filter_by(name=label).one_or_none() \
+                or Label(name=label)
+            labels.add(label)
 
         # 获取创建时间
         create_at = meta_data["create_at"][0]
@@ -85,6 +90,7 @@ def update_posts(updated_paths, update_all=False):
         post.create_at = datetime.strptime(create_at, "%Y-%m-%d %H:%M:%S")
         post.author = author
         post.category = category
+        post.labels = labels
 
         db.session.add(post)
         print(f"{post.title} is updated.")     # noqa

@@ -56,6 +56,19 @@ class Category(db.Model):
     posts = db.relationship("Post", backref="category", lazy="dynamic")
 
 
+class Label(db.Model):
+    __tablename__ = "label"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(128), unique=True, nullable=False)
+    posts = db.relationship(
+        "Post",
+        secondary="post_label_ref",
+        backref=db.backref("labels", lazy="dynamic"),
+        lazy="dynamic",
+    )
+
+
 class Post(db.Model):
     __tablename__ = "post"
     __searchable__ = ["title", "content"]
@@ -84,6 +97,12 @@ class Post(db.Model):
                 self.coding_path.encode("utf-8"),
                 "md5",
             ).hexdigest()
+
+
+class PostLabelRef(db.Model):
+    __tablename__ = "post_label_ref"
+    post_id = db.Column(db.Integer, db.ForeignKey(Post.id), primary_key=True)
+    label_id = db.Column(db.Integer, db.ForeignKey(Label.id), primary_key=True)
 
 
 @db.event.listens_for(Post.content, "set")
