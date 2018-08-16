@@ -7,7 +7,7 @@ import click
 from flask_migrate import Migrate, upgrade
 
 from blog import create_app
-from blog.models import db, redis, Post, User
+from blog.models import db, redis, Post, User, Category
 from blog.celerys.update_tasks import update_posts
 from config import config
 
@@ -17,7 +17,14 @@ migrate = Migrate(app, db)
 
 @app.shell_context_processor
 def make_shell_context():
-    return dict(db=db, redis=redis, Post=Post, User=User, **app.celery_apps)
+    return dict(
+        db=db,
+        redis=redis,
+        Post=Post,
+        User=User,
+        Category=Category,
+        **app.celery_apps
+    )
 
 
 @app.cli.command(help="Update all posts.")
