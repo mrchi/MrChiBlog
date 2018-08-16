@@ -64,8 +64,8 @@
                 </a>
             </li>
             <li class="list-inline-item">
-                更新于
-                <span>{{ post.update_at.strftime('%Y年%m月%d日') }}</span>
+                创建于
+                <span>{{ post.create_at.strftime('%Y年%m月%d日') }}</span>
             </li>
         </ul>
         <p class="summary">{{ post.html_content|striptags|truncate(200) }}</p>
