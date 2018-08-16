@@ -2,7 +2,7 @@
 
 from flask import Blueprint, render_template, g, abort
 
-from blog.models import Post
+from blog.models import Post, Category
 from .common import check_args
 
 bp_main = Blueprint("main", __name__)
@@ -18,12 +18,15 @@ def index():
         .filter_by(status=1) \
         .order_by(Post.create_at.desc()) \
         .paginate(page, per_page, error_out=False)
-
     posts = pagination.items
+
+    categories = Category.query.all()
+    categories.sort(key=lambda i: i.posts.count(), reverse=True)
 
     return render_template(
         "index.html",
         posts=posts,
+        categories=categories,
         pagination=pagination,
         endpoint="main.index",
     )

@@ -18,6 +18,7 @@
 
 {% block sidebar %}
 <div class="card mt20 sidebar-card">
+    <div class="card-header">Quote</div>
     <div class="card-body">
         <span>愿中国青年都摆脱冷气，只是向上走，不必听自暴自弃者流的话。能做事的做事，能发声的发声。有一分热，发一分光，就令萤火一般，也可以在黑暗里发一点光，不必等候炬火。此后如竟没有炬火：我便是唯一的光。</span>
         <br/>
@@ -25,10 +26,28 @@
     </div>
 </div>
 <div class="card mt20 sidebar-card">
+    <div class="card-header">
+    分类
+    </div>
+    <ul class="list-group list-group-flush">
+        {% for category in categories %}
+        <li class="list-group-item">
+            <a href="#">
+                {{ category.name }}
+                <span class="badge badge-pill badge-light">
+                    {{ category.posts.count() }}
+                </span>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="card mt20 sidebar-card">
     <div class="card-header">关于</div>
     <div class="card-body">
         <p><strong>MrChi</strong><br/>Python开发者，爱好广泛。</p>
         <p><a href="https://github.com/chiqj/" target="_blank" noopener>GitHub</a></p>
         <span>Try again, fail again, fail better.</span>
+    </div>
 </div>
 {% endblock %}

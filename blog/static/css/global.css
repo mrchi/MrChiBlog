@@ -36,8 +36,9 @@ a:hover {
 }
 
 .sidebar-card {
-    font-size: 16px;
-    font-family: "Courier", "Consolas", STSong;
+    font-size: 14px;
+    color: #777;
+    /*font-family: "Courier", "Consolas", STSong;*/
 }
 
 /* 导航条 */
