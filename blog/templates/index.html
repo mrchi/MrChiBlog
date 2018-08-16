@@ -31,14 +31,12 @@
     </div>
     <ul class="list-group list-group-flush">
         {% for category in categories %}
-        <li class="list-group-item">
-            <a href="#">
-                {{ category.name }}
-                <span class="badge badge-pill badge-light">
-                    {{ category.posts.count() }}
-                </span>
-            </a>
-        </li>
+        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+            {{ category.name }}
+            <span class="badge badge-pill badge-success">
+                {{ category.posts.count() }}
+            </span>
+        </a>
         {% endfor %}
     </ul>
 </div>
