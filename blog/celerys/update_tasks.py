@@ -74,11 +74,15 @@ def update_posts(updated_paths, update_all=False):
 
         # 获取 Label 对象
 
+        # 获取创建时间
+        create_at = meta_data["create_at"][0]
+
         # 更新文章
         post.title = data["title"]
         post.content = content
         post.html_content = html_content
         post.update_at = datetime.fromtimestamp(data["timestamp"]/1000)
+        post.create_at = datetime.strptime(create_at, "%Y-%m-%d %H:%M:%S")
         post.author = author
         post.category = category
 

@@ -65,6 +65,7 @@ class Post(db.Model):
     title = db.Column(db.String(128), unique=True, nullable=False)
     content = db.Column(LONGTEXT, nullable=False)
     html_content = db.Column(LONGTEXT, nullable=False, default="")
+    create_at = db.Column(db.DateTime, nullable=False)
     update_at = db.Column(db.DateTime, nullable=False)
     coding_path = db.Column(db.String(256), nullable=False, unique=True)
     permalink = db.Column(db.String(128), nullable=False, unique=True)
