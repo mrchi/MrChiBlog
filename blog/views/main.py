@@ -3,7 +3,7 @@
 from flask import Blueprint, render_template, g, abort
 from sqlalchemy import func
 
-from blog.models import db, Post, Category, Label, PostLabelRef
+from blog.models import Post, Category, Label, PostLabelRef
 from .common import check_args
 
 bp_main = Blueprint("main", __name__)
@@ -15,12 +15,12 @@ def inject_contexts():
     results = Category.query \
         .join(Post) \
         .add_columns(func.count(Post.id)) \
-        .filter(Post.status==1) \
+        .filter(Post.status == 1) \
         .group_by(Category.id) \
         .order_by(func.count(Post.id).desc()) \
         .all()
     categories = [
-        {"id": category.id, "name": category.name, "posts_count": count} \
+        {"id": category.id, "name": category.name, "posts_count": count}
         for (category, count) in results if count != 0
     ]
 
@@ -28,12 +28,12 @@ def inject_contexts():
         .join(PostLabelRef) \
         .join(Post) \
         .add_columns(func.count(Post.id)) \
-        .filter(Post.status==1) \
+        .filter(Post.status == 1) \
         .group_by(Label.id) \
         .order_by(func.count(Post.id).desc()) \
         .all()
     labels = [
-        {"id": label.id, "name": label.name, "posts_count": count} \
+        {"id": label.id, "name": label.name, "posts_count": count}
         for (label, count) in results if count != 0
     ]
 
