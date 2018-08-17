@@ -1,11 +1,43 @@
 # coding=utf-8
 
 from flask import Blueprint, render_template, g, abort
+from sqlalchemy import func
 
-from blog.models import Post, Category, Label
+from blog.models import db, Post, Category, Label, PostLabelRef
 from .common import check_args
 
 bp_main = Blueprint("main", __name__)
+
+
+@bp_main.context_processor
+def inject_contexts():
+    """向模版中插入 categories 和 labels 变量"""
+    results = Category.query \
+        .join(Post) \
+        .add_columns(func.count(Post.id)) \
+        .filter(Post.status==1) \
+        .group_by(Category.id) \
+        .order_by(func.count(Post.id).desc()) \
+        .all()
+    categories = [
+        {"id": category.id, "name": category.name, "posts_count": count} \
+        for (category, count) in results if count != 0
+    ]
+
+    results = Label.query \
+        .join(PostLabelRef) \
+        .join(Post) \
+        .add_columns(func.count(Post.id)) \
+        .filter(Post.status==1) \
+        .group_by(Label.id) \
+        .order_by(func.count(Post.id).desc()) \
+        .all()
+    labels = [
+        {"id": label.id, "name": label.name, "posts_count": count} \
+        for (label, count) in results if count != 0
+    ]
+
+    return dict(categories=categories, labels=labels)
 
 
 @bp_main.route("/")
@@ -20,17 +52,9 @@ def index():
         .paginate(page, per_page, error_out=False)
     posts = pagination.items
 
-    categories = Category.query.all()
-    categories.sort(key=lambda i: i.posts.count(), reverse=True)
-
-    labels = Label.query.all()
-    labels.sort(key=lambda i: i.posts.count(), reverse=True)
-
     return render_template(
         "index.html",
         posts=posts,
-        categories=categories,
-        labels=labels,
         pagination=pagination,
         endpoint="main.index",
     )

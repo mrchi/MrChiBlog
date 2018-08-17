@@ -31,8 +31,8 @@
     <div class="card-body list-inline">
         {% for label in labels[:20] %}
         <a href="#" class="list-inline-item">
-            {{ label.name }}
-            <span class="badge badge-light">{{ label.posts.count() }}</span>
+            {{ label['name'] }}
+            <span class="badge badge-light">{{ label['posts_count'] }}</span>
         </a>
         {% endfor %}
     </div>
