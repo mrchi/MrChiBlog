@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as macros %}
+
+{% set active_menu = "main.labels" %}
+{% set breadcrumb_items = (
+        (url_for("main.index"), "首页"),
+        "所有标签",
+    )
+%}
+
+{% set badge_styles=(
+        'badge-light',
+    )
+%}
+
+{% block title %}所有标签{% endblock %}
+
+{% block content %}
+<div class="col-12">
+    {{ macros.breadcrumb_widget(breadcrumb_items) }}
+    <div class="card-body list-inline">
+        {% if limit %}{% set labels=labels[:limit] %}{% endif %}
+        {% for label in labels %}
+        <a href="{{ url_for('main.label', id_=label['id']) }}" class="label-item list-inline-item">
+            {{ label['name'] }}
+            <span class="badge badge-light">{{ label['posts_count'] }}</span>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}

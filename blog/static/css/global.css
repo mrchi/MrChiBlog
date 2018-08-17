@@ -45,11 +45,11 @@ a:hover {
     padding: 0.5rem 1.25rem;
 }
 
-.sidebar-card .list-inline-item {
+.label-item {
     padding: 3px 0.5rem;
     background-color: #EEE;
-    margin-bottom: 5px;
-    margin-right: 5px;
+    margin-bottom: 0.5rem;
+    margin-right: 0.5rem;
 }
 
 /* 导航条 */

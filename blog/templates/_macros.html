@@ -91,3 +91,19 @@
     </ul>
 </div>
 {% endmacro %}
+
+
+{% macro label_card_widget(labels, limit=None) %}
+<div class="card mt20 sidebar-card">
+    <div class="card-header">标签{% if limit %}（Top {{ limit }}）{% endif %}</div>
+    <div class="card-body list-inline">
+        {% if limit %}{% set labels=labels[:limit] %}{% endif %}
+        {% for label in labels %}
+        <a href="{{ url_for('main.label', id_=label['id']) }}" class="list-inline-item label-item">
+            {{ label['name'] }}
+            <span class="badge badge-light">{{ label['posts_count'] }}</span>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endmacro %}

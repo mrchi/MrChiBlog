@@ -76,6 +76,7 @@ def post(permalink):
 @bp_main.route("/categories")
 @check_args("page:?int")
 def categories():
+    """所有分类页面"""
     page = g.args.get("page", 1)    # 页码
     per_page = 10                   # 分页数量
     pagination = Post.query \
@@ -95,7 +96,7 @@ def categories():
 @bp_main.route("/category/<int:id_>")
 @check_args("page:?int")
 def category(id_):
-    """分类页"""
+    """分类详情页"""
     page = g.args.get("page", 1)    # 页码
     per_page = 10                   # 分页数量
     category = Category.query.get_or_404(id_)
@@ -112,6 +113,35 @@ def category(id_):
         pagination=pagination,
         posts=posts,
         endpoint="main.category",
+    )
+
+
+@bp_main.route("/labels")
+def labels():
+    """所有标签页面"""
+    return render_template("labels.html")
+
+
+@bp_main.route("/label/<int:id_>")
+@check_args("page:?int")
+def label(id_):
+    """标签详情页"""
+    page = g.args.get("page", 1)    # 页码
+    per_page = 10                   # 分页数量
+    label = Label.query.get_or_404(id_)
+
+    pagination = label.posts \
+        .filter_by(status=1) \
+        .order_by(Post.create_at.desc()) \
+        .paginate(page, per_page, error_out=False)
+    posts = pagination.items
+
+    return render_template(
+        "label.html",
+        label=label,
+        pagination=pagination,
+        posts=posts,
+        endpoint="main.label",
     )
 
 

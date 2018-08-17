@@ -26,17 +26,7 @@
     </div>
 </div>
 {{ macros.category_card_widget(categories) }}
-<div class="card mt20 sidebar-card">
-    <div class="card-header">标签（Top 20）</div>
-    <div class="card-body list-inline">
-        {% for label in labels[:20] %}
-        <a href="#" class="list-inline-item">
-            {{ label['name'] }}
-            <span class="badge badge-light">{{ label['posts_count'] }}</span>
-        </a>
-        {% endfor %}
-    </div>
-</div>
+{{ macros.label_card_widget(labels, limit=20) }}
 <div class="card mt20 sidebar-card">
     <div class="card-header">关于</div>
     <div class="card-body">
