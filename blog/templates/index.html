@@ -25,19 +25,7 @@
         <span class="blockquote-footer text-right">鲁迅</span>
     </div>
 </div>
-<div class="card mt20 sidebar-card">
-    <div class="card-header">分类</div>
-    <ul class="list-group list-group-flush">
-        {% for category in categories %}
-        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-            {{ category.name }}
-            <span class="badge badge-pill badge-success">
-                {{ category.posts.count() }}
-            </span>
-        </a>
-        {% endfor %}
-    </ul>
-</div>
+{{ macros.category_card_widget(categories) }}
 <div class="card mt20 sidebar-card">
     <div class="card-header">标签（Top 20）</div>
     <div class="card-body list-inline">
