@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as macros %}
+
+{% set active_menu = "main.categories" %}
+{% set breadcrumb_items = (
+        (url_for("main.index"), "首页"),
+        "所有分类",
+    )
+%}
+
+{% block title %}所有分类{% endblock %}
+
+{% block main %}
+{{ macros.breadcrumb_widget(breadcrumb_items) }}
+{{ macros.post_stream_widget(posts) }}
+{{ macros.pagination_widget(pagination, endpoint) }}
+{% endblock %}
+
+{% block sidebar %}
+{{ macros.category_card_widget(categories) }}
+{% endblock %}

@@ -73,6 +73,48 @@ def post(permalink):
     )
 
 
+@bp_main.route("/categories")
+@check_args("page:?int")
+def categories():
+    page = g.args.get("page", 1)    # 页码
+    per_page = 10                   # 分页数量
+    pagination = Post.query \
+        .filter_by(status=1) \
+        .order_by(Post.create_at.desc()) \
+        .paginate(page, per_page, error_out=False)
+    posts = pagination.items
+
+    return render_template(
+        "categories.html",
+        posts=posts,
+        pagination=pagination,
+        endpoint="main.categories",
+    )
+
+
+@bp_main.route("/category/<int:id_>")
+@check_args("page:?int")
+def category(id_):
+    """分类页"""
+    page = g.args.get("page", 1)    # 页码
+    per_page = 10                   # 分页数量
+    category = Category.query.get_or_404(id_)
+
+    pagination = category.posts \
+        .filter_by(status=1) \
+        .order_by(Post.create_at.desc()) \
+        .paginate(page, per_page, error_out=False)
+    posts = pagination.items
+
+    return render_template(
+        "category.html",
+        category=category,
+        pagination=pagination,
+        posts=posts,
+        endpoint="main.category",
+    )
+
+
 @bp_main.route("/search")
 @check_args("q:?str", "page:?int")
 def search():
