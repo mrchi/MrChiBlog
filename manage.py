@@ -7,7 +7,7 @@ import click
 from flask_migrate import Migrate, upgrade
 
 from blog import create_app
-from blog.models import db, redis, Post, User, Category, Label
+from blog.models import db, redis, Post, User, Category, Label, PostLabelRef
 from blog.celerys.update_tasks import update_posts
 from config import config
 
@@ -24,6 +24,7 @@ def make_shell_context():
         User=User,
         Category=Category,
         Label=Label,
+        PostLabelRef=PostLabelRef,
         **app.celery_apps
     )
 
