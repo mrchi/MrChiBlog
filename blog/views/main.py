@@ -37,7 +37,7 @@ def index():
 
 
 @bp_main.route("/p/<string:permalink>")
-def content(permalink):
+def post(permalink):
     """文章内容页"""
     post = Post.query.filter_by(status=1, permalink=permalink).one_or_none()
     if not post:
