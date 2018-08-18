@@ -52,6 +52,12 @@ a:hover {
     margin-right: 0.5rem;
 }
 
+.label-item:hover {
+    background:  #159962;
+    color: #FFF;
+    text-decoration:  none;
+}
+
 /* 导航条 */
 
 .nav-item:hover {
