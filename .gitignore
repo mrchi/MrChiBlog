@@ -111,3 +111,6 @@ venv.bak/
 
 # whoosh index file path
 *_whoosh_idx/
+
+# MacOS filesystem
+.DS_Store
