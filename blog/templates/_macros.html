@@ -78,7 +78,10 @@
 
 {% macro category_card_widget(categories) %}
 <div class="card mt20 sidebar-card">
-    <div class="card-header">分类</div>
+    <div class="card-header">
+        <i class="icon-folder-open"></i>
+        分类
+    </div>
     <ul class="list-group list-group-flush">
         {% for category in categories %}
         <a href="{{ url_for('main.category', id_=category['id']) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
@@ -95,7 +98,10 @@
 
 {% macro label_card_widget(labels, limit=None) %}
 <div class="card mt20 sidebar-card">
-    <div class="card-header">标签{% if limit %}（Top {{ limit }}）{% endif %}</div>
+    <div class="card-header">
+        <i class="icon-tags"></i>
+        标签{% if limit %}（Top {{ limit }}）{% endif %}
+    </div>
     <div class="card-body list-inline">
         {% if limit %}{% set labels=labels[:limit] %}{% endif %}
         {% for label in labels %}
