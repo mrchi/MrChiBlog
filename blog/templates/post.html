@@ -20,7 +20,7 @@
         </li>
         <li class="list-inline-item">
             <i class="icon-time"></i>
-            <span>{{ post.create_at.strftime('%Y年%m月%d日') }}</span>
+            <span class="momentjs" data-time="{{ post.create_at }}"></span>
         </li>
         <li class="list-inline-item">
             <i class="icon-folder-close"></i>

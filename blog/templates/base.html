@@ -70,9 +70,21 @@
     </footer>
 {% endblock %}
 
-    <script src="{{ url_for('static', filename='libs/jQuery/3.3.1/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='libs/Bootstrap/4.1.2/bootstrap.bundle.min.js') }}"></script>
-
+    <script type="text/javascript" src="{{ url_for('static', filename='libs/jQuery/3.3.1/jquery-3.3.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='libs/Bootstrap/4.1.2/bootstrap.bundle.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='libs/Moment.js/2.22.2/moment-with-locales.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            // 自动根据浏览器语言设置 locale
+            var locale = window.navigator.language;
+            var elements = $('.momentjs');
+            moment.locale(locale);
+            for (var i of elements) {
+                t = i.getAttribute("data-time");
+                i.innerText = moment(t, "YYYY-MM-DD hh:mm:ss").fromNow();
+            };
+        });
+    </script>
 {% block script %}{% endblock %}
 </body>
 
