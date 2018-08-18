@@ -68,7 +68,7 @@
             </li>
             <li class="list-inline-item">
                 发布于
-                <a href="#">{{ post.category.name }}</a>
+                <a href="{{ url_for('main.category', id_=post.category.id) }}">{{ post.category.name }}</a>
             </li>
         </ul>
         <p class="summary">{{ post.html_content|striptags|truncate(200) }}</p>
