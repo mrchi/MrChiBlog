@@ -64,8 +64,11 @@
                 </a>
             </li>
             <li class="list-inline-item">
-                创建于
                 <span>{{ post.create_at.strftime('%Y年%m月%d日') }}</span>
+            </li>
+            <li class="list-inline-item">
+                发布于
+                <a href="#">{{ post.category.name }}</a>
             </li>
         </ul>
         <p class="summary">{{ post.html_content|striptags|truncate(200) }}</p>
