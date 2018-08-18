@@ -168,6 +168,10 @@ a:hover {
     font-size: 14px;
 }
 
+#post-info .list-inline-item {
+    margin-right: 1rem;
+}
+
 #post-content {
     margin: 30px 0 20px;
     line-height: 1.8;
@@ -274,6 +278,13 @@ a:hover {
 
 #post-content table th {
     background-color: #F3F3F3;
+}
+
+#post-labels {
+    border-top: 2px solid #ddd;
+    margin: 20px 0;
+    padding: 20px 20px 0;
+    font-size: 14px;
 }
 
 /* 文章目录 */

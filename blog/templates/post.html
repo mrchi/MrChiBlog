@@ -19,13 +19,27 @@
             </a>
         </li>
         <li class="list-inline-item">
-            更新于
-            <span>{{ post.update_at.strftime('%Y年%m月%d日') }}</span>
+            <i class="icon-time"></i>
+            <span>{{ post.create_at.strftime('%Y年%m月%d日') }}</span>
+        </li>
+        <li class="list-inline-item">
+            <i class="icon-folder-close"></i>
+            <a href="{{ url_for('main.category', id_=post.category.id) }}">
+                {{ post.category.name }}
+            </a>
         </li>
     </ul>
     <div id="post-content">
         {{ post.html_content|safe }}
     </div>
+    <ul class="list-inline" id="post-labels">
+        {% for label in post.labels %}
+        <a href="{{ url_for('main.label', id_=label.id) }}" class="list-inline-item label-item">
+            <i class="icon-tag"></i>
+            {{ label.name }}
+        </a>
+        {% endfor %}
+    </ul>
 </div>
 
 {% endblock %}
