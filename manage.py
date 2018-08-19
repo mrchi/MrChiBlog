@@ -4,7 +4,6 @@
 import os
 
 import click
-from flask_migrate import Migrate, upgrade
 
 from blog import create_app
 from blog.models import db, redis, Post, User, Category, Label, PostLabelRef
@@ -12,7 +11,6 @@ from blog.celerys.update_tasks import update_posts
 from config import config
 
 app = create_app(config[os.getenv('FLASK_ENV') or 'default'])
-migrate = Migrate(app, db)
 
 
 @app.shell_context_processor
@@ -34,7 +32,7 @@ def make_shell_context():
 def deploy(dropdb):
     if dropdb:
         db.drop_all()
-        upgrade()
+        db.create_all()
         print("Database is droped and rebuilded.")
     print("---------- Start update. ----------")
     update_posts([], update_all=True)
