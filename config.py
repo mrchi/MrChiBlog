@@ -21,8 +21,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DEV_DATABASE_URI") or \
-        "sqlite:///./data-dev.sqlite"
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DEV_DATABASE_URI")
     REDIS_URL = os.environ.get("DEV_REDIS_URI") or "redis://127.0.0.1:6379/0"
     WHOOSH_BASE = os.environ.get("DEV_WHOOSH_BASE") or "dev_whoosh_idx"
     DINGTALK_ROBOT_TOKEN = os.environ.get("DEV_DINGTALK_TOKEN")
@@ -30,16 +29,14 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get("TEST_DATABASE_URI") or \
-        "sqlite:///./data-test.sqlite"
+    SQLALCHEMY_DATABASE_URI = os.environ.get("TEST_DATABASE_URI")
     REDIS_URL = os.environ.get("TEST_REDIS_URI")
     WHOOSH_BASE = os.environ.get("TEST_WHOOSH_BASE") or "test_whoosh_idx"
     DINGTALK_ROBOT_TOKEN = os.environ.get("TEST_DINGTALK_TOKEN")
 
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get("PROD_DATABASE_URI") or \
-        "sqlite:///./data-prod.sqlite"
+    SQLALCHEMY_DATABASE_URI = os.environ.get("PROD_DATABASE_URI")
     REDIS_URL = os.environ.get("PROD_REDIS_URI")
     WHOOSH_BASE = os.environ.get("PROD_WHOOSH_BASE") or "prod_whoosh_idx"
     DINGTALK_ROBOT_TOKEN = os.environ.get("PROD_DINGTALK_TOKEN")
