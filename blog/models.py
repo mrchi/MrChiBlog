@@ -88,7 +88,7 @@ class Post(db.Model):
     update_at = db.Column(db.DateTime, nullable=False)
     coding_path = db.Column(db.String(256), nullable=False, unique=True)
     permalink = db.Column(db.String(128), nullable=False, unique=True)
-    status = db.Column(db.Integer, nullable=False, default=0)   # 0:未公开，1:公开，2:删除
+    status = db.Column(db.Integer, nullable=False, default=1)   # 1:公开，2:删除
     author_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey(Category.id), nullable=False)
 
