@@ -28,6 +28,10 @@
                 {{ post.category.name }}
             </a>
         </li>
+        <li class="list-inline-item">
+            <i class="icon-edit"></i>
+            <span class="momentjs" data-time="{{ post.update_at }}"></span>
+        </li>
     </ul>
     <div id="post-content">
         {{ post.html_content|safe }}
