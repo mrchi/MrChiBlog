@@ -63,9 +63,34 @@
 {% block footer %}
     <footer id="footer">
         <div class="container">
-            Powered by <a href="http://flask.pocoo.org/">Flask</a>.
-            <br>
-            Copyright © 2018 MrChi
+            <div class="row">
+                <div class="col-md-4">
+                    <i class="icon-heart"></i>
+                    Powered by
+                    <a href="http://flask.pocoo.org/">Flask</a>
+                    <br>
+                    <i class="icon-lightbulb"></i>
+                    Fork me on
+                    <a href="https://github.com/chiqj/MrChiBlog">MrChiBlog</a>
+                </div>
+                <div class="col-md-2 d-none d-md-block">
+                    <span class="statistic-num">{{ statistic["posts"] }}</span>
+                    文章
+                </div>
+                <div class="col-md-2 d-none d-md-block">
+                    <span class="statistic-num">{{ statistic["categories"] }}</span>
+                    分类
+                </div>
+                <div class="col-md-2 d-none d-md-block">
+                    <span class="statistic-num">{{ statistic["labels"] }}</span>
+                    标签
+                </div>
+                <div class="col-md-2 d-none d-md-block">
+                    更新于
+                    <br>
+                    <span class="momentjs" data-time="{{ statistic['last_update_at'] }}"></span>
+                </div>
+            </div>
         </div>
     </footer>
 {% endblock %}

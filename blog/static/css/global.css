@@ -342,3 +342,8 @@ a:hover {
     color: #888;
     font-size: 14px;
 }
+
+.statistic-num {
+    font-size: 2rem;
+    font-weight: 400;
+}

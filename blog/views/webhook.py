@@ -1,9 +1,12 @@
 # coding=utf-8
 
+from datetime import datetime
+
 from flask import Blueprint, jsonify, request, current_app, g
 
 from blog.libs.coding import CodingSignature
 from blog.celerys.update_tasks import remove_posts, update_posts
+from blog.models import redis
 from .common import check_args
 
 bp_webhook = Blueprint("webhook", __name__, url_prefix="/webhook")
@@ -50,5 +53,8 @@ def coding_webhook():
     # Celery任务执行
     remove_posts.delay(removed_paths)
     update_posts.delay(updated_paths)
+
+    # 在 redis 中存储最后更新时间
+    redis.set("last_update_at", datetime.now().strptime('%Y-%m-%d %H:%M:%S'))
 
     return jsonify(dict(success=True))

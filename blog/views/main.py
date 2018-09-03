@@ -3,7 +3,7 @@
 from flask import Blueprint, render_template, g, abort
 from sqlalchemy import func
 
-from blog.models import Post, Category, Label, PostLabelRef
+from blog.models import redis, Post, Category, Label, PostLabelRef
 from .common import check_args
 
 bp_main = Blueprint("main", __name__)
@@ -11,7 +11,7 @@ bp_main = Blueprint("main", __name__)
 
 @bp_main.context_processor
 def inject_contexts():
-    """向模版中插入 categories 和 labels 变量"""
+    """向模版中插入 categories、labels 和 statistic 变量"""
     results = Category.query \
         .join(Post) \
         .add_columns(func.count(Post.id)) \
@@ -37,7 +37,18 @@ def inject_contexts():
         for (label, count) in results if count != 0
     ]
 
-    return dict(categories=categories, labels=labels)
+    statistic = {
+        "last_update_at": redis.get("last_update_at"),
+        "posts": Post.query.filter_by(status=1).count(),
+        "categories": Category.query.count(),
+        "labels": Label.query.count(),
+    }
+
+    return dict(
+        categories=categories,
+        labels=labels,
+        statistic=statistic,
+    )
 
 
 @bp_main.route("/")
