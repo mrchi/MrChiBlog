@@ -227,7 +227,7 @@ flask run
 - 由于我前端水平不够高，博客页面样式和配色大量借鉴了 [SegmentFault](https://segmentfault.com/)，在此对 SegmentFault 表示感谢。SegmentFault 是国内做的比较好的 IT 问答社区，大家可以多去看看。如果 SegmentFault 觉得我侵犯了您的利益，请与我联系。
 - 感谢前司“学长”的技术指导，在 Docker 方面帮助了我很多。
 
-# ToDo
+# Todo
 
 1. 增加测试用例并实现 TDD；
 2. 使用“操作 Git 仓库”方式替代“使用 Coding API”方式获得内容和数据（可兼容任意 Git 托管平台）；
