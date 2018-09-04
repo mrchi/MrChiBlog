@@ -116,7 +116,7 @@ pipenv run celery worker -A manage:celery_update -l info -n celery-update
 pipenv run celery worker -A manage:celery_notify -l info -n celery-notify
 ```
 
-访问 `5000` 端口即可。
+访问 `5000` 端口即可。
 
 ## Docker 部署
 
@@ -185,11 +185,11 @@ docker-compose up -d
 docker exec -it mrchiblog_web_1 flask deploy
 ```
 
-在宿主机上访问 `127.0.0.1:5000` 即可。
+在宿主机上访问 `127.0.0.1:5000` 即可。
 
 # 开发
 
-开发时，Flask 应被设置为 development 模式。相比普通部署的 `.env` 文件，部分环境变量需要调整，包括：
+开发时，Flask 应被设置为 development 模式。相比普通部署的 `.env` 文件，部分环境变量需要调整，包括：
 
 ```
 # flask 应用工作在 development 模式，开启 debug 和 auto_reload
@@ -220,12 +220,13 @@ flask deploy
 flask run
 ```
 
-访问 `http://127.0.0.1:5000` 即可。
+访问 `http://127.0.0.1:5000` 即可。
 
 # 感谢
 
-- 由于我前端水平不够高，博客页面样式和配色大量借鉴了 [SegmentFault](https://segmentfault.com/)，在此对 SegmentFault 表示感谢。SegmentFault 是国内做的比较好的 IT 问答社区，大家可以多去看看。如果 SegmentFault 觉得我侵犯了您的利益，请与我联系。
 - 感谢前司“学长”的技术指导，在 Docker 方面帮助了我很多。
+- 感谢不愿透露姓名的“菜鸡”同学帮我解决前端bug。
+- 由于我前端水平不够高，博客页面样式和配色大量借鉴了 [SegmentFault](https://segmentfault.com/)，在此对 SegmentFault 表示感谢。如果 SegmentFault 觉得我侵犯了您的利益，请与我联系。
 
 # Todo
 
