@@ -114,3 +114,7 @@ venv.bak/
 
 # MacOS filesystem
 .DS_Store
+
+# docker 部署运行时数据
+data/
+logs/

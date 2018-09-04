@@ -1,0 +1,4 @@
+data/
+logs/
+*_whoosh_idx/
+.venv/
