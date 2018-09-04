@@ -3,7 +3,7 @@
 
 项目缘起于在前司工作期间，需要搭建一个团队技术博客，需要支持团队多人发布文章，并放在公网访问。彼时团队代码托管在 Coding，刚好也不想增加新的一套账号体系，因此想到了 Coding repo 作为文章来源，使用 Coding API 来获取内容并展示的方案。不巧的是，在职期间一直没时间实现，离职后终于动手实现了基本功能。
 
-曾在某公众号（冯大辉或者和菜头，记不清了）的推文中看到过说，做事分为两个阶段：从零到一，从一到多。从零到一是创造，从一到多是优化迭代。这个项目陆陆续续写了大概两个月，也不过是几个静态页面罢了。优化迭代是一个循序渐进、不断重构的过程，对于这个项目，这才刚开始，后续任重而道远。
+曾在某公众号（冯大辉或者和菜头，记不清了）的推文中看到过说，做事分为两个阶段：从零到一，从一到多。从零到一是创造，从一到多是优化迭代。这个项目陆陆续续写了大概两个月，却也仅仅是几个静态页面模版罢了。优化迭代是一个循序渐进、不断重构的过程，对于这个项目，这才刚开始，后续任重而道远。
 
 # 特性
 
@@ -34,7 +34,7 @@
 - Flask-WhooshAlchemyPlus
 - Whoosh
 - Jieba
-- markdown
+- python-markdown
 - Pygments
 - requests
 - PyMySQL
@@ -186,6 +186,27 @@ docker exec -it mrchiblog_web_1 flask deploy
 ```
 
 在宿主机上访问 `127.0.0.1:5000` 即可。
+
+## 在 markdown 中包含元数据
+
+目前我是将一些元数据直接放到了 markdown 文档中， [python-markdown](https://python-markdown.github.io/) 库在转换为 html 时，通过 [Meta-data](https://python-markdown.github.io/extensions/meta_data/) 扩展读取这些元数据并存入数据库，而转换得到的 html 中不会包含这些元数据。这种方式，无疑给写文档的人增加了一定工作量，但好处是，所有信息都在 Coding repo 中，任何时候都可以删库重建而不会造成数据丢失。
+
+在 markdown 中包含的元数据包括：分类（category）、标签（labels）和创建时间（create_at）。示例如下：
+
+```markdown
+---
+category: Docker
+labels: Docker
+        Dockerfile
+create_at: 2018-08-10 17:40:45
+---
+
+这是 markdown 正文第一句话。Good luck, have fun.
+```
+
+元数据写在 markdown 文档的开头，以 `---` 行开头（L1）和结尾（L6），并与 markdown 正文之间有一个空行（上面的 L7）。元数据采用 yaml 语法，分类和创建时间只能有一个，标签可以有多个。多个标签分别写在不同行，并保证从第二个标签开始，缩进大于 2 个空格。
+
+上面的示例中，该文章分类为 “Docker”，标签为 “Docker” 和 “Dockerfile”，创建时间为 “2018-08-10 17:40:45”。
 
 # 开发
 
