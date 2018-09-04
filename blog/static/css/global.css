@@ -109,6 +109,10 @@ a:hover {
     color: #175940;
 }
 
+.pagination .page-item .page-link:focus {
+    box-shadow: none;
+}
+
 .pagination .page-item.active .page-link {
     color: #FFF;
     background-color: #159962;
