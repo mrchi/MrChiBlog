@@ -14,6 +14,8 @@ services:       # 容器编排中不同服务的配置
       - rabbitmq
       - mysql
     environment:          # 环境变量，未指定值的环境变量会从当前环境变量中读取，或从.env文件中读取。
+      SET_CONTAINER_TIMEZONE: "true"
+      CONTAINER_TIMEZONE: Asia/Shanghai
       FLASK_APP: "manage:app"
       FLASK_ENV: "production"
       PROD_DATABASE_URI: "mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}?charset=utf8mb4"
@@ -45,6 +47,8 @@ services:       # 容器编排中不同服务的配置
       - rabbitmq
       - mysql
     environment:
+      SET_CONTAINER_TIMEZONE: "true"
+      CONTAINER_TIMEZONE: Asia/Shanghai
       FLASK_APP: "manage:app"
       FLASK_ENV: "production"
       PROD_DATABASE_URI: "mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}?charset=utf8mb4"
@@ -68,6 +72,9 @@ services:       # 容器编排中不同服务的配置
 
   redis:
     image: redis:alpine             # 使用 redis:alpine 镜像，镜像不存在时会自动从镜像源拉取
+    environment:
+      SET_CONTAINER_TIMEZONE: "true"
+      CONTAINER_TIMEZONE: Asia/Shanghai
     volumes:
       - ./data/redis:/data:rw       # redis 数据文件
     networks:
@@ -76,6 +83,9 @@ services:       # 容器编排中不同服务的配置
 
   rabbitmq:
     image: rabbitmq:alpine
+    environment:
+      SET_CONTAINER_TIMEZONE: "true"
+      CONTAINER_TIMEZONE: Asia/Shanghai
     networks:
       - back-tire
     restart: on-failure
@@ -83,6 +93,8 @@ services:       # 容器编排中不同服务的配置
   mysql:
     image: mysql:5.7
     environment:
+      SET_CONTAINER_TIMEZONE: "true"
+      CONTAINER_TIMEZONE: Asia/Shanghai
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
       MYSQL_USER:
       MYSQL_PASSWORD:
