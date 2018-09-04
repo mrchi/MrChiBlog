@@ -13,5 +13,5 @@ RUN pipenv install --system --deploy
 
 COPY apis/source /mrchiblog/apis/source
 COPY blog /mrchiblog/blog
-COPY *.py /mrchiblog/
+COPY *.py README.md /mrchiblog/
 RUN mkdir /mrchiblog/logs

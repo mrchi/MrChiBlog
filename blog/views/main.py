@@ -3,7 +3,8 @@
 from flask import Blueprint, render_template, g, abort
 from sqlalchemy import func
 
-from blog.models import redis, Post, Category, Label, PostLabelRef
+from blog.models import redis, md_converter, \
+    Post, Category, Label, PostLabelRef
 from .common import check_args
 
 bp_main = Blueprint("main", __name__)
@@ -175,4 +176,15 @@ def search():
         posts=posts,
         pagination=pagination,
         endpoint="main.search",
+    )
+
+
+@bp_main.route("/about")
+def about():
+    with open("README.md") as f:
+        content = f.read()
+    html_content = md_converter.convert(content)
+    return render_template(
+        "about.html",
+        html_content=html_content,
     )
