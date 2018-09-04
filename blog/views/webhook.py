@@ -55,6 +55,6 @@ def coding_webhook():
     update_posts.delay(updated_paths)
 
     # 在 redis 中存储最后更新时间
-    redis.set("last_update_at", datetime.now().strptime('%Y-%m-%d %H:%M:%S'))
+    redis.set("last_update_at", datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
     return jsonify(dict(success=True))

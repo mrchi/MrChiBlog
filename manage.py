@@ -40,7 +40,7 @@ def deploy(dropdb):
     print("----------- End update. -----------")
 
     # 在 redis 中存储最后更新时间
-    redis.set("last_update_at", datetime.now().strptime('%Y-%m-%d %H:%M:%S'))
+    redis.set("last_update_at", datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
 for name, celery_app in app.celery_apps.items():
     if name in globals():
