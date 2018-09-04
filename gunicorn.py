@@ -14,8 +14,8 @@ worker_class = "sync"           # worker 工作模式
 threads = 2                     # 每个worker进程的线程数，推荐值范围 [2, 4*cpu数量]
 timeout = 30                    # worker进程超时时间，超时后会重启或杀掉进程
 
-accesslog = "logs/access.log"   # 访问日志
+accesslog = "logs/gunicorn-access.log"   # 访问日志
 access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
 
-errorlog = "logs/error.log"     # 错误日志
+errorlog = "logs/gunicorn-error.log"     # 错误日志
 loglevel = "info"               # 错误日志级别
