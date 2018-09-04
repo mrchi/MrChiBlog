@@ -32,8 +32,8 @@ def make_shell_context():
 def deploy(dropdb):
     if dropdb:
         db.drop_all()
-        db.create_all()
-        print("Database is droped and rebuilded.")
+        print("Database is droped.")
+    db.create_all()
     print("---------- Start update. ----------")
     update_posts([], update_all=True)
     print("----------- End update. -----------")
