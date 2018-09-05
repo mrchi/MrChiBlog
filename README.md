@@ -172,17 +172,22 @@ CELERY_BROKER_URL=amqp://rabbitmq:5672
 CELERY_RESULT_BACKEND=disabled
 ```
 
-然后
+构建镜像
 
 ```
 docker-compose build
-docker-compose up -d
 ```
 
 初始化数据库：
 
 ```
-docker-compose exec web flask deploy
+docker-compose run web flask deploy
+```
+
+运行
+
+```
+docker-compose up -d
 ```
 
 在宿主机上访问 `127.0.0.1:5000` 即可。
