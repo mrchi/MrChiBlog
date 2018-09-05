@@ -182,7 +182,7 @@ docker-compose up -d
 初始化数据库：
 
 ```
-docker exec -it mrchiblog_web_1 flask deploy
+docker-compose exec web flask deploy
 ```
 
 在宿主机上访问 `127.0.0.1:5000` 即可。
