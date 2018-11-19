@@ -2,19 +2,14 @@
 
 from datetime import datetime
 
-from celery import Celery
 from flask import current_app
 
-from . import celeryconfig
+from . import rq
 from blog.models import db, Post, User, Category, Label, md_converter
 from blog.libs.coding import CodingPost
 
-celery_update = Celery("celery_update")
-celery_update.config_from_object(celeryconfig)
-celery_update.conf.update(task_default_queue="update_queue")
 
-
-@celery_update.task(shared=False)
+@rq.job("update", timeout=60)
 def remove_posts(removed_paths):
     """删除文章"""
     removed_paths = set(removed_paths)
@@ -24,15 +19,15 @@ def remove_posts(removed_paths):
     for post in posts:
         post.status = 2
         removed_paths.remove(post.coding_path)
-        print(f"{post.title} is removed.")      # noqa
+        print(f"{post.title} is removed.")
     # 不存在的文章
     for path in removed_paths:
-        print(f"{path} don't exist.")       # noqa
+        print(f"{path} don't exist.")
 
     db.session.commit()
 
 
-@celery_update.task(shared=False)
+@rq.job("update", timeout=180)
 def update_posts(updated_paths, update_all=False):
     """添加或修改文章"""
     coding = CodingPost(

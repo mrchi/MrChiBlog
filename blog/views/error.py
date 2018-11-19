@@ -4,7 +4,7 @@ import traceback
 
 from flask import Blueprint, render_template, g, request
 
-from blog.celerys.notify_tasks import send_500_notify
+from blog.tasks.notify import send_500_notify
 
 bp_error = Blueprint("error", __name__)
 
@@ -33,7 +33,7 @@ def http_404(e):
 @bp_error.app_errorhandler(500)
 def http_500(e):
     tip = "哎呀，服务器提出了一个问题 ಠ_ಠ"
-    send_500_notify.delay(
+    send_500_notify.queue(
         request.path,
         traceback.format_exception_only(type(e), e)[-1],
     )
