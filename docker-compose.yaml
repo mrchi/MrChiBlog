@@ -60,7 +60,7 @@ services:       # 容器编排中不同服务的配置
       - /mrchiblog/cache/whoosh:/mrchiblog/prod_whoosh_idx:rw         # Whoosh 索引数据文件
       - /mrchiblog/logs:/mrchiblog/logs:rw                            # gunicorn 日志文件
     working_dir: /mrchiblog
-    command: flask rq worker update > logs/rq-update.log
+    command: flask rq worker update
     networks:
       - back-tire
 
