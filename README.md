@@ -180,7 +180,7 @@ docker-compose build
 初始化数据库：
 
 ```
-docker-compose run web flask deploy
+docker-compose exec web flask deploy
 ```
 
 运行
