@@ -28,10 +28,11 @@
 ## 后端
 
 - Flask
-- Celery
+- RQ
 - Gunicorn
 - Flask-SQLAlchemy
 - Flask-WhooshAlchemyPlus
+- Flask-RQ2
 - Whoosh
 - Jieba
 - python-markdown
@@ -43,7 +44,7 @@
 
 ## 普通部署
 
-安装 redis、rabbitmq 和 mysql，并创建 mysql 数据库（建议使用 utf8mb4 编码以兼容 emoji 表情等字符）。
+安装 redis 和 mysql，并创建 mysql 数据库（建议使用 utf8mb4 编码以兼容 emoji 表情等字符）。
 
 拉取代码：
 
@@ -92,9 +93,8 @@ PROD_REDIS_URI=redis://127.0.0.1:6379/0
 # 生产环境 whoosh 索引目录配置
 PROD_WHOOSH_BASE=./prod_whoosh_idx
 
-# Celery 配置
-CELERY_BROKER_URL=amqp://127.0.0.1:5672
-CELERY_RESULT_BACKEND=disabled
+# 生产环境 rq 配置
+PROD_RQ_REDIS_URI=redis://127.0.0.1:6379/1
 ```
 
 初始化数据库：
@@ -109,11 +109,11 @@ pipenv run flask deploy
 pipenv run gunicorn -c gunicorn.py -b 0.0.0.0:5000 manage:app
 ```
 
-启动 celery 任务：
+启动 rq worker：
 
 ```
-pipenv run celery worker -A manage:celery_update -l info -n celery-update
-pipenv run celery worker -A manage:celery_notify -l info -n celery-notify
+pipenv run flask rq worker update
+pipenv run flask rq worker notify
 ```
 
 访问 `5000` 端口即可。
@@ -129,7 +129,7 @@ git clone https://github.com/chiqj/MrChiBlog.git
 在项目根目录创建 `.env` 环境变量文件。与普通部署时略有不同:
 
 - 需要分别指定 mysql 数据库用户名、密码、数据库名；
-- redis 和 rabbitmq url 中的主机部分都使用容器名。
+- redis 和 rq redis url 中的主机部分都使用容器名。
 
 示例如下：
 
@@ -167,9 +167,8 @@ PROD_REDIS_URI=redis://redis:6379/0
 # 生产环境 whoosh 索引目录配置
 PROD_WHOOSH_BASE=./prod_whoosh_idx
 
-# Celery 配置
-CELERY_BROKER_URL=amqp://rabbitmq:5672
-CELERY_RESULT_BACKEND=disabled
+# 生产环境 rq 配置
+PROD_RQ_REDIS_URI=redis://127.0.0.1:6379/1
 ```
 
 构建镜像

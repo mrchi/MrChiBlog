@@ -5,7 +5,7 @@ from datetime import datetime
 from flask import Blueprint, jsonify, request, current_app, g
 
 from blog.libs.coding import CodingSignature
-from blog.celerys.update_tasks import remove_posts, update_posts
+from blog.tasks.update import remove_posts, update_posts
 from blog.models import redis
 from .common import check_args
 
@@ -51,8 +51,8 @@ def coding_webhook():
     updated_paths = [i for i in paths if paths[i] in ("added", "modified")]
 
     # Celery任务执行
-    remove_posts.delay(removed_paths)
-    update_posts.delay(updated_paths)
+    remove_posts.queue(removed_paths)
+    update_posts.queue(updated_paths)
 
     # 在 redis 中存储最后更新时间
     redis.set("last_update_at", datetime.now().strftime('%Y-%m-%d %H:%M:%S'))

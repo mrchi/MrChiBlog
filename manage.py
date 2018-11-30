@@ -8,7 +8,7 @@ import click
 
 from blog import create_app
 from blog.models import db, redis, Post, User, Category, Label, PostLabelRef
-from blog.celerys.update_tasks import update_posts
+from blog.tasks.update import update_posts
 from config import config
 
 app = create_app(config[os.getenv('FLASK_ENV') or 'default'])
@@ -24,7 +24,6 @@ def make_shell_context():
         Category=Category,
         Label=Label,
         PostLabelRef=PostLabelRef,
-        **app.celery_apps
     )
 
 
@@ -41,8 +40,3 @@ def deploy(dropdb):
 
     # 在 redis 中存储最后更新时间
     redis.set("last_update_at", datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-
-for name, celery_app in app.celery_apps.items():
-    if name in globals():
-        raise NameError(f"Celery app name '{name}' is repeated.")   # noqa
-    globals()[name] = celery_app

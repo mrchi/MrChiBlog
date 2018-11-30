@@ -9,9 +9,8 @@ services:       # 容器编排中不同服务的配置
 
   web:                    # 容器名称
     build: .              # 使用当前目录下 Dockerfile 构建镜像
-    depends_on:           # 服务依赖，启动当前服务的容器时，必须先启动其依赖容器。即 redis、rabbitmq 和 mysql 会先于 web 启动。
+    depends_on:           # 服务依赖，启动当前服务的容器时，必须先启动其依赖容器。即 redis 和 mysql 会先于 web 启动。
       - redis
-      - rabbitmq
       - mysql
     environment:          # 环境变量，未指定值的环境变量会从当前环境变量中读取，或从.env文件中读取。
       TZ: Asia/Shanghai
@@ -26,11 +25,10 @@ services:       # 容器编排中不同服务的配置
       HMAC_KEY:
       PROD_DINGTALK_TOKEN:
       PROD_REDIS_URI:
-      CELERY_BROKER_URL:
-      CELERY_RESULT_BACKEND:
+      PROD_RQ_REDIS_URI:
     volumes:                          # 数据卷挂载，rw是读写模式
-      - ./data/whoosh:/mrchiblog/prod_whoosh_idx:rw         # Whoosh 索引数据文件
-      - ./logs:/mrchiblog/logs:rw                           # gunicorn 日志文件
+      - /mrchiblog/cache/whoosh:/mrchiblog/prod_whoosh_idx:rw         # Whoosh 索引数据文件
+      - /mrchiblog/logs:/mrchiblog/logs:rw                            # gunicorn 日志文件
     working_dir: /mrchiblog           # 工作目录，command 命令在工作目录下执行
     command: gunicorn -c gunicorn.py -w 1 -b 0.0.0.0:5000 manage:app  # 容器启动时默认执行的命令
     ports:                            # 端口映射，这里把容器的 5000 端口映射到宿主机的 5000 端口，并监听宿主机 127.0.0.1 的连接
@@ -39,11 +37,10 @@ services:       # 容器编排中不同服务的配置
       - back-tire
     restart: on-failure
 
-  celery-update:
+  rq-update:
     build: .
     depends_on:
       - redis
-      - rabbitmq
       - mysql
     environment:
       TZ: Asia/Shanghai
@@ -58,13 +55,12 @@ services:       # 容器编排中不同服务的配置
       HMAC_KEY:
       PROD_DINGTALK_TOKEN:
       PROD_REDIS_URI:
-      CELERY_BROKER_URL:
-      CELERY_RESULT_BACKEND:
+      PROD_RQ_REDIS_URI:
     volumes:
-      - ./data/whoosh:/mrchiblog/prod_whoosh_idx:rw         # Whoosh 索引文件
-      - ./logs:/mrchiblog/logs:rw                           # Celery 日志文件
+      - /mrchiblog/cache/whoosh:/mrchiblog/prod_whoosh_idx:rw         # Whoosh 索引数据文件
+      - /mrchiblog/logs:/mrchiblog/logs:rw                            # gunicorn 日志文件
     working_dir: /mrchiblog
-    command: celery worker -A manage:celery_update -l info -f logs/celery-update.log
+    command: flask rq worker update
     networks:
       - back-tire
 
@@ -73,15 +69,7 @@ services:       # 容器编排中不同服务的配置
     environment:
       TZ: Asia/Shanghai
     volumes:
-      - ./data/redis:/data:rw       # redis 数据文件
-    networks:
-      - back-tire
-    restart: on-failure
-
-  rabbitmq:
-    image: rabbitmq:alpine
-    environment:
-      TZ: Asia/Shanghai
+      - /mrchiblog/data/redis:/data:rw      # redis 数据文件
     networks:
       - back-tire
     restart: on-failure
@@ -96,7 +84,7 @@ services:       # 容器编排中不同服务的配置
       MYSQL_DATABASE:
     volumes:
       - ./conf/mysql.ini:/etc/mysql/conf.d/mrchiblog.cnf:ro     # MySQL 配置
-      - ./data/mysql:/var/lib/mysql:rw                          # MySQL 数据文件
+      - /mrchiblog/data/mysql:/var/lib/mysql:rw                 # MySQL 数据文件
     networks:
       - back-tire
     restart: on-failure

@@ -8,8 +8,7 @@ flask = "*"
 flask-sqlalchemy = "*"
 pymysql = "*"
 requests = "*"
-celery = "*"
-redis = "*"
+redis = "==2.10.6"
 markdown = "*"
 pygments = "*"
 flask-redis = "*"
@@ -17,6 +16,7 @@ whoosh = "*"
 jieba = "*"
 flask-whooshalchemyplus = "*"
 gunicorn = "*"
+flask-rq2 = "*"
 
 [dev-packages]
 
