@@ -17,6 +17,7 @@ jieba = "*"
 flask-whooshalchemyplus = "*"
 gunicorn = "*"
 flask-rq2 = "*"
+gitpython = "*"
 
 [dev-packages]
 
