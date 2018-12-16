@@ -4,10 +4,8 @@ import os
 
 
 class Config:
-    OWNER = os.environ.get("OWNER")
-    PROJECT = os.environ.get("PROJECT")
-    ROOTDIR = os.environ.get("ROOTDIR")
-    ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
+    REPO_DIR = os.environ.get("REPO_DIR")
+    REPO_BRANCH = "master"
     WEBHOOK_TOKEN = os.environ.get("WEBHOOK_TOKEN")
 
     HMAC_KEY = os.environ.get("HMAC_KEY")

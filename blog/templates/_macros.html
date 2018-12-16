@@ -59,8 +59,8 @@
         <ul class="list-inline info">
             <li class="list-inline-item">
                 <a href="#">
-                    <img src="{{ post.author.avatar_url }}" class="avatar">
-                    {{ post.author.username }}
+                    <img src="{{ url_for('static', filename='img/avatar.png') }}" class="avatar">
+                    {{ post.author.name }}
                 </a>
             </li>
             <li class="list-inline-item">

@@ -1,7 +1,6 @@
 # coding=utf-8
 
 import hmac
-from urllib.parse import urljoin
 
 from markdown import Markdown
 from flask import current_app
@@ -36,16 +35,12 @@ class User(db.Model):
     __tablename__ = "user"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(64), unique=True, nullable=False)
-    avatar = db.Column(db.String(256))
+    email = db.Column(db.String(64), unique=True, nullable=False)
+    name = db.Column(db.String(64), default="")
     posts = db.relationship("Post", backref="author", lazy="dynamic")
 
-    @property
-    def avatar_url(self):
-        return urljoin("https://coding.net", self.avatar)
-
     def __repr__(self):
-        return "<User %r>" % self.username
+        return "<User %r>" % self.email
 
 
 class Category(db.Model):

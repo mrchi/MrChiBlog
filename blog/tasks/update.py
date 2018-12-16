@@ -1,12 +1,10 @@
 # coding=utf-8
 
-from datetime import datetime
-
 from flask import current_app
 
 from . import rq
 from blog.models import db, Post, User, Category, Label, md_converter
-from blog.libs.coding import CodingPost
+from blog.libs.coding import PostRepo
 
 
 @rq.job("update", timeout=60)
@@ -28,34 +26,34 @@ def remove_posts(removed_paths):
 
 
 @rq.job("update", timeout=180)
-def update_posts(updated_paths, update_all=False):
+def update_posts(updated_blobs, update_all=False):
     """添加或修改文章"""
-    coding = CodingPost(
-        current_app.config["ACCESS_TOKEN"],
-        current_app.config["OWNER"],
-        current_app.config["PROJECT"],
-        current_app.config["ROOTDIR"],
+    repo = PostRepo(
+        current_app.config["REPO_DIR"],
+        current_app.config["REPO_BRANCH"],
     )
     # 是否全量更新
     if update_all:
-        updated_paths = coding.get_all_paths()
-    updated_paths = set(updated_paths)
+        updated_blobs = repo.get_post_list()
+    else:
+        updated_blobs = set(updated_blobs)
 
     # 查询已存在文章
-    posts = Post.query.filter(Post.coding_path.in_(updated_paths)).all()
-    posts = {i.coding_path: i for i in posts}
+    # posts = Post.query.filter(Post.coding_path.in_(updated_blobs)).all()
+    # posts = {i.coding_path: i for i in posts}
 
-    for path in updated_paths:
-        post = posts.get(path) or Post(coding_path=path)
+    for blob in updated_blobs:
+        post = Post.query.filter_by(coding_path=blob.path).one_or_none() \
+            or Post(coding_path=blob.path)
 
         # 拉取文章信息
-        data = coding.get_file_content(path)
+        data = repo.get_post_detail(blob)
 
         # 获取 Author 对象
-        author_name = data["author"]["name"]
-        author = User.query.filter_by(username=author_name).one_or_none() \
-            or User(username=author_name)
-        author.avatar = data["author"]["avatar"]
+        author_email = data["author"]["email"]
+        author = User.query.filter_by(email=author_email).one_or_none() \
+            or User(email=author_email)
+        author.name = data["author"]["name"]
 
         # 获取文章的 Meta-data 数据
         content = data["content"]
@@ -74,15 +72,12 @@ def update_posts(updated_paths, update_all=False):
                 or Label(name=label)
             labels.add(label)
 
-        # 获取创建时间
-        create_at = meta_data["create_at"][0]
-
         # 更新文章
         post.title = data["title"]
         post.content = content
         post.html_content = html_content
-        post.update_at = datetime.fromtimestamp(data["timestamp"]/1000)
-        post.create_at = datetime.strptime(create_at, "%Y-%m-%d %H:%M:%S")
+        post.update_at = data["update_time"]
+        post.create_at = data["create_time"]
         post.author = author
         post.category = category
         post.labels = labels
