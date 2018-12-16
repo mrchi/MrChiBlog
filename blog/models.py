@@ -81,7 +81,7 @@ class Post(db.Model):
     html_content = db.Column(LONGTEXT, nullable=False, default="")
     create_at = db.Column(db.DateTime, nullable=False)
     update_at = db.Column(db.DateTime, nullable=False)
-    coding_path = db.Column(db.String(256), nullable=False, unique=True)
+    path = db.Column(db.String(256), nullable=False, unique=True)
     permalink = db.Column(db.String(128), nullable=False, unique=True)
     status = db.Column(db.Integer, nullable=False, default=1)   # 1:公开，2:删除
     author_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
@@ -92,10 +92,10 @@ class Post(db.Model):
 
     def __init__(self, **kw):
         super(Post, self).__init__(**kw)
-        if self.coding_path is not None and self.permalink is None:
+        if self.path is not None and self.permalink is None:
             self.permalink = hmac.new(
                 current_app.config["HMAC_KEY"].encode("utf-8"),
-                self.coding_path.encode("utf-8"),
+                self.path.encode("utf-8"),
                 "md5",
             ).hexdigest()
 

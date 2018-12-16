@@ -6,6 +6,7 @@ import os
 class Config:
     REPO_DIR = os.environ.get("REPO_DIR")
     REPO_BRANCH = "master"
+    REPO_SSHKEY = os.environ.get("REPO_SSHKEY")
     WEBHOOK_TOKEN = os.environ.get("WEBHOOK_TOKEN")
 
     HMAC_KEY = os.environ.get("HMAC_KEY")

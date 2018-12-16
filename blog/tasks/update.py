@@ -4,19 +4,19 @@ from flask import current_app
 
 from . import rq
 from blog.models import db, Post, User, Category, Label, md_converter
-from blog.libs.coding import PostRepo
+from blog.libs.repo import PostRepo
 
 
 @rq.job("update", timeout=60)
 def remove_posts(removed_paths):
     """删除文章"""
     removed_paths = set(removed_paths)
-    posts = Post.query.filter(Post.coding_path.in_(removed_paths)).all()
+    posts = Post.query.filter(Post.path.in_(removed_paths)).all()
 
     # 删除存在的文章
     for post in posts:
         post.status = 2
-        removed_paths.remove(post.coding_path)
+        removed_paths.remove(post.path)
         print(f"{post.title} is removed.")
     # 不存在的文章
     for path in removed_paths:
@@ -30,6 +30,7 @@ def update_posts(updated_blobs, update_all=False):
     """添加或修改文章"""
     repo = PostRepo(
         current_app.config["REPO_DIR"],
+        current_app.config["REPO_SSHKEY"],
         current_app.config["REPO_BRANCH"],
     )
     # 是否全量更新
@@ -38,13 +39,9 @@ def update_posts(updated_blobs, update_all=False):
     else:
         updated_blobs = set(updated_blobs)
 
-    # 查询已存在文章
-    # posts = Post.query.filter(Post.coding_path.in_(updated_blobs)).all()
-    # posts = {i.coding_path: i for i in posts}
-
     for blob in updated_blobs:
-        post = Post.query.filter_by(coding_path=blob.path).one_or_none() \
-            or Post(coding_path=blob.path)
+        post = Post.query.filter_by(path=blob.path).one_or_none() \
+            or Post(path=blob.path)
 
         # 拉取文章信息
         data = repo.get_post_detail(blob)
@@ -85,4 +82,4 @@ def update_posts(updated_blobs, update_all=False):
         db.session.add(post)
         print(f"{post.title} is updated.")     # noqa
 
-    db.session.commit()
+        db.session.commit()

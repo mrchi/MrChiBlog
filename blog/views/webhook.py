@@ -4,7 +4,7 @@ from datetime import datetime
 
 from flask import Blueprint, jsonify, request, current_app, g
 
-from blog.libs.coding import CodingSignature
+from blog.libs.repo import CodingSignature
 from blog.tasks.update import remove_posts, update_posts
 from blog.models import redis
 from .common import check_args

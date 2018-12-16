@@ -7,10 +7,12 @@ from git import Repo
 
 
 class PostRepo:
-    def __init__(self, repo_dir, repo_branch=None):
+    def __init__(self, repo_dir, ssh_key, repo_branch=None):
         repo_branch = repo_branch or 'master'
+        ssh_key = os.path.abspath(ssh_key)
         self.repo = Repo(repo_dir)
-        self.repo.remote().pull(f"{repo_branch}:{repo_branch}")
+        with self.repo.git.custom_environment(GIT_SSH_COMMAND=f"ssh -i {ssh_key}"):
+            self.repo.remote().pull(f"{repo_branch}:{repo_branch}")
         self.branch = self.repo.branches[repo_branch]
         self.commit_sha = self.branch.commit
         self.post_exts = ['.md', ]
