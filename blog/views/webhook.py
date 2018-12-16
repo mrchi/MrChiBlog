@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-from flask import Blueprint, jsonify, request, current_app, g
+from flask import Blueprint, jsonify, request, current_app, g, abort
 
 from blog.libs.repo import CodingSignature
 from blog.tasks.update import remove_posts, update_posts
