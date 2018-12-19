@@ -14,7 +14,7 @@
 {% block main %}
 {{ macros.breadcrumb_widget(breadcrumb_items) }}
 {{ macros.post_stream_widget(posts) }}
-{{ macros.pagination_widget(pagination, endpoint, id_=label.id) }}
+{{ macros.pagination_widget(pagination, endpoint, permalink=label.permalink) }}
 {% endblock %}
 
 {% block sidebar %}

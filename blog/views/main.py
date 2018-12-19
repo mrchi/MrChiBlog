@@ -21,7 +21,7 @@ def inject_contexts():
         .order_by(func.count(Post.id).desc()) \
         .all()
     categories = [
-        {"id": category.id, "name": category.name, "posts_count": count}
+        {"permalink": category.permalink, "name": category.name, "posts_count": count}
         for (category, count) in results if count != 0
     ]
 
@@ -34,7 +34,7 @@ def inject_contexts():
         .order_by(func.count(Post.id).desc()) \
         .all()
     labels = [
-        {"id": label.id, "name": label.name, "posts_count": count}
+        {"permalink": label.permalink, "name": label.name, "posts_count": count}
         for (label, count) in results if count != 0
     ]
 
@@ -105,13 +105,15 @@ def categories():
     )
 
 
-@bp_main.route("/category/<int:id_>")
+@bp_main.route("/category/<string:permalink>")
 @check_args("page:?int")
-def category(id_):
+def category(permalink):
     """分类详情页"""
     page = g.args.get("page", 1)    # 页码
     per_page = 10                   # 分页数量
-    category = Category.query.get_or_404(id_)
+    category = Category.query.filter_by(permalink=permalink).one_or_none()
+    if not category:
+        abort(404)
 
     pagination = category.posts \
         .filter_by(status=1) \
@@ -134,13 +136,15 @@ def labels():
     return render_template("labels.html")
 
 
-@bp_main.route("/label/<int:id_>")
+@bp_main.route("/label/<string:permalink>")
 @check_args("page:?int")
-def label(id_):
+def label(permalink):
     """标签详情页"""
     page = g.args.get("page", 1)    # 页码
     per_page = 10                   # 分页数量
-    label = Label.query.get_or_404(id_)
+    label = Label.query.filter_by(permalink=permalink).one_or_none()
+    if not label:
+        abort(404)
 
     pagination = label.posts \
         .filter_by(status=1) \

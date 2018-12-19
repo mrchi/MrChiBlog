@@ -48,10 +48,20 @@ class Category(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(128), unique=True, nullable=False)
+    permalink = db.Column(db.String(128), nullable=False, unique=True)
     posts = db.relationship("Post", backref="category", lazy="dynamic")
 
     def __repr__(self):
         return "<Category %r>" % self.name
+
+    def __init__(self, **kw):
+        super(Category, self).__init__(**kw)
+        if self.name is not None and self.permalink is None:
+            self.permalink = hmac.new(
+                current_app.config["HMAC_KEY"].encode("utf-8"),
+                self.name.encode("utf-8"),
+                "md5",
+            ).hexdigest()
 
 
 class Label(db.Model):
@@ -59,6 +69,7 @@ class Label(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(128), unique=True, nullable=False)
+    permalink = db.Column(db.String(128), nullable=False, unique=True)
     posts = db.relationship(
         "Post",
         secondary="post_label_ref",
@@ -68,6 +79,15 @@ class Label(db.Model):
 
     def __repr__(self):
         return "<Label %r>" % self.name
+
+    def __init__(self, **kw):
+        super(Label, self).__init__(**kw)
+        if self.name is not None and self.permalink is None:
+            self.permalink = hmac.new(
+                current_app.config["HMAC_KEY"].encode("utf-8"),
+                self.name.encode("utf-8"),
+                "md5",
+            ).hexdigest()
 
 
 class Post(db.Model):

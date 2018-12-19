@@ -21,7 +21,7 @@
     <div class="card-body list-inline">
         {% if limit %}{% set labels=labels[:limit] %}{% endif %}
         {% for label in labels %}
-        <a href="{{ url_for('main.label', id_=label['id']) }}" class="label-item list-inline-item">
+        <a href="{{ url_for('main.label', permalink=label['permalink']) }}" class="label-item list-inline-item">
             {{ label['name'] }}
             <span class="badge badge-light">{{ label['posts_count'] }}</span>
         </a>
