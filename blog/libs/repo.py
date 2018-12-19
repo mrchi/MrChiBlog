@@ -17,17 +17,41 @@ class PostRepo:
         self.commit_sha = self.branch.commit
         self.post_exts = ['.md', ]
 
-    def get_post_list(self):
-        """ 获取文章 blob 对象列表 """
+    def get_all_posts(self):
+        """ 获取所有文章 blob 对象列表 """
         trees_list = [self.commit_sha.tree]
+        updated_blobs = set()
+        removed_blobs = set()
+
         # 遍历获得所有 blob
         while trees_list:
             tree = trees_list.pop()
             trees_list.extend(tree.trees)
             for blob in tree.blobs:
-                # 过滤指定扩展名的 blob
+                # 过滤指定扩展名
                 if os.path.splitext(blob.path)[1] in self.post_exts:
-                    yield blob
+                    updated_blobs.add(blob)
+        return updated_blobs, removed_blobs
+
+    def get_diff_posts(self, ref, before_sha, after_sha):
+        """ 获取更新文章 blob 对象列表 """
+        updated_blobs = set()
+        removed_blobs = set()
+        # 如果不是当前分支的改动，忽略
+        if self.branch.path != ref:
+            return updated_blobs, removed_blobs
+
+        before_commit = self.repo.commit(before_sha)
+        after_commit = self.repo.commit(after_sha)
+        for diff in before_commit.diff(after_commit):
+            if diff.deleted_file:
+                removed_blobs.add(diff.a_blob)
+            elif diff.renamed_file:
+                updated_blobs.add(diff.b_blob)
+                removed_blobs.add(diff.a_blob)
+            else:
+                updated_blobs.add(diff.b_blob)
+        return updated_blobs, removed_blobs
 
     def get_post_detail(self, blob):
         """ 获取文章详情 """

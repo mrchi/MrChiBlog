@@ -76,7 +76,7 @@ class Post(db.Model):
     __analyzer__ = ChineseAnalyzer()
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    title = db.Column(db.String(128), unique=True, nullable=False)
+    title = db.Column(db.String(128), nullable=False)
     content = db.Column(LONGTEXT, nullable=False)
     html_content = db.Column(LONGTEXT, nullable=False, default="")
     create_at = db.Column(db.DateTime, nullable=False)

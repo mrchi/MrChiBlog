@@ -1,47 +1,38 @@
 # coding=utf-8
 
+from datetime import datetime
+
 from flask import current_app
 
 from . import rq
-from blog.models import db, Post, User, Category, Label, md_converter
+from blog.models import db, redis, Post, User, Category, Label, md_converter
 from blog.libs.repo import PostRepo
 
 
-@rq.job("update", timeout=60)
-def remove_posts(removed_paths):
-    """删除文章"""
-    removed_paths = set(removed_paths)
-    posts = Post.query.filter(Post.path.in_(removed_paths)).all()
-
-    # 删除存在的文章
-    for post in posts:
-        post.status = 2
-        removed_paths.remove(post.path)
-        print(f"{post.title} is removed.")
-    # 不存在的文章
-    for path in removed_paths:
-        print(f"{path} don't exist.")
-
-    db.session.commit()
-
-
 @rq.job("update", timeout=180)
-def update_posts(updated_blobs, update_all=False):
+def update_posts(diff_info, update_all=False):
     """添加或修改文章"""
     repo = PostRepo(
         current_app.config["REPO_DIR"],
         current_app.config["REPO_SSHKEY"],
         current_app.config["REPO_BRANCH"],
     )
-    # 是否全量更新
-    if update_all:
-        updated_blobs = repo.get_post_list()
-    else:
-        updated_blobs = set(updated_blobs)
 
+    if update_all:
+        updated_blobs, removed_blobs = repo.get_all_posts()
+    else:
+        updated_blobs, removed_blobs = repo.get_diff_posts(
+            ref=diff_info['ref'],
+            before_sha=diff_info['before'],
+            after_sha=diff_info['after'],
+        )
+
+    # 更新文章
+    updated_paths = {i.path for i in updated_blobs}
+    updated_posts = Post.query.filter(Post.path.in_(updated_paths)).all()
+    updated_posts = {i.path: i for i in updated_posts}
     for blob in updated_blobs:
-        post = Post.query.filter_by(path=blob.path).one_or_none() \
-            or Post(path=blob.path)
+        post = updated_posts.get(blob.path) or Post(path=blob.path)
 
         # 拉取文章信息
         data = repo.get_post_detail(blob)
@@ -80,6 +71,21 @@ def update_posts(updated_blobs, update_all=False):
         post.labels = labels
 
         db.session.add(post)
-        print(f"{post.title} is updated.")     # noqa
+        print(f"{blob.name} is updated.")     # noqa
 
-        db.session.commit()
+    # 删除文章
+    removed_paths = {i.path for i in removed_blobs}
+    removed_posts = Post.query.filter(Post.path.in_(removed_paths)).all()
+    removed_posts = {i.path: i for i in removed_posts}
+    for blob in removed_blobs:
+        post = removed_posts.get(blob.path)
+        if post:
+            post.status = 2
+            print(f"{blob.name} is removed.")
+        else:
+            print(f"{blob.name} don't exist.")
+
+    db.session.commit()
+
+    # 在 redis 中存储最后更新时间
+    redis.set("last_update_at", datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
