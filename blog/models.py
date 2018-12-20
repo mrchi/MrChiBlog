@@ -1,7 +1,6 @@
 # coding=utf-8
 
 import hmac
-from urllib.parse import urljoin
 
 from markdown import Markdown
 from flask import current_app
@@ -36,16 +35,12 @@ class User(db.Model):
     __tablename__ = "user"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(64), unique=True, nullable=False)
-    avatar = db.Column(db.String(256))
+    email = db.Column(db.String(64), unique=True, nullable=False)
+    name = db.Column(db.String(64), default="")
     posts = db.relationship("Post", backref="author", lazy="dynamic")
 
-    @property
-    def avatar_url(self):
-        return urljoin("https://coding.net", self.avatar)
-
     def __repr__(self):
-        return "<User %r>" % self.username
+        return "<User %r>" % self.email
 
 
 class Category(db.Model):
@@ -53,10 +48,20 @@ class Category(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(128), unique=True, nullable=False)
+    permalink = db.Column(db.String(128), nullable=False, unique=True)
     posts = db.relationship("Post", backref="category", lazy="dynamic")
 
     def __repr__(self):
         return "<Category %r>" % self.name
+
+    def __init__(self, **kw):
+        super(Category, self).__init__(**kw)
+        if self.name is not None and self.permalink is None:
+            self.permalink = hmac.new(
+                current_app.config["HMAC_KEY"].encode("utf-8"),
+                self.name.encode("utf-8"),
+                "md5",
+            ).hexdigest()
 
 
 class Label(db.Model):
@@ -64,6 +69,7 @@ class Label(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(128), unique=True, nullable=False)
+    permalink = db.Column(db.String(128), nullable=False, unique=True)
     posts = db.relationship(
         "Post",
         secondary="post_label_ref",
@@ -74,6 +80,15 @@ class Label(db.Model):
     def __repr__(self):
         return "<Label %r>" % self.name
 
+    def __init__(self, **kw):
+        super(Label, self).__init__(**kw)
+        if self.name is not None and self.permalink is None:
+            self.permalink = hmac.new(
+                current_app.config["HMAC_KEY"].encode("utf-8"),
+                self.name.encode("utf-8"),
+                "md5",
+            ).hexdigest()
+
 
 class Post(db.Model):
     __tablename__ = "post"
@@ -81,12 +96,12 @@ class Post(db.Model):
     __analyzer__ = ChineseAnalyzer()
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    title = db.Column(db.String(128), unique=True, nullable=False)
+    title = db.Column(db.String(128), nullable=False)
     content = db.Column(LONGTEXT, nullable=False)
     html_content = db.Column(LONGTEXT, nullable=False, default="")
     create_at = db.Column(db.DateTime, nullable=False)
     update_at = db.Column(db.DateTime, nullable=False)
-    coding_path = db.Column(db.String(256), nullable=False, unique=True)
+    path = db.Column(db.String(256), nullable=False, unique=True)
     permalink = db.Column(db.String(128), nullable=False, unique=True)
     status = db.Column(db.Integer, nullable=False, default=1)   # 1:公开，2:删除
     author_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
@@ -97,10 +112,10 @@ class Post(db.Model):
 
     def __init__(self, **kw):
         super(Post, self).__init__(**kw)
-        if self.coding_path is not None and self.permalink is None:
+        if self.path is not None and self.permalink is None:
             self.permalink = hmac.new(
                 current_app.config["HMAC_KEY"].encode("utf-8"),
-                self.coding_path.encode("utf-8"),
+                self.path.encode("utf-8"),
                 "md5",
             ).hexdigest()
 

@@ -14,8 +14,8 @@
     <ul class="list-inline" id="post-info">
         <li class="list-inline-item">
             <a href="#">
-                <img src="{{ post.author.avatar_url }}" class="avatar">
-                {{ post.author.username }}
+                <img src="{{ url_for('static', filename='img/avatar.png') }}" class="avatar">
+                {{ post.author.name }}
             </a>
         </li>
         <li class="list-inline-item">
@@ -24,7 +24,7 @@
         </li>
         <li class="list-inline-item">
             <i class="icon-folder-close"></i>
-            <a href="{{ url_for('main.category', id_=post.category.id) }}">
+            <a href="{{ url_for('main.category', permalink=post.category.permalink) }}">
                 {{ post.category.name }}
             </a>
         </li>
@@ -38,7 +38,7 @@
     </div>
     <ul class="list-inline" id="post-labels">
         {% for label in post.labels %}
-        <a href="{{ url_for('main.label', id_=label.id) }}" class="list-inline-item label-item">
+        <a href="{{ url_for('main.label', permalink=label.permalink) }}" class="list-inline-item label-item">
             <i class="icon-tag"></i>
             {{ label.name }}
         </a>

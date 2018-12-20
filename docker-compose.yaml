@@ -17,10 +17,8 @@ services:       # 容器编排中不同服务的配置
       FLASK_APP: "manage:app"
       FLASK_ENV: "production"
       PROD_DATABASE_URI: "mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}?charset=utf8mb4"
-      OWNER:
-      PROJECT:
-      ROOTDIR:
-      ACCESS_TOKEN:
+      REPO_DIR: "/mrchiblog/repo"
+      REPO_SSHKEY: "/mrchiblog/sshkey/id_rsa"
       WEBHOOK_TOKEN:
       HMAC_KEY:
       PROD_DINGTALK_TOKEN:
@@ -29,6 +27,8 @@ services:       # 容器编排中不同服务的配置
     volumes:                          # 数据卷挂载，rw是读写模式
       - /mrchiblog/cache/whoosh:/mrchiblog/prod_whoosh_idx:rw         # Whoosh 索引数据文件
       - /mrchiblog/logs:/mrchiblog/logs:rw                            # gunicorn 日志文件
+      - /mrchiblog/sshkey:/mrchiblog/sshkey:ro                        # Git SSH key
+      - /mrchiblog/repo:/mrchiblog/repo:rw                            # Git Repo
     working_dir: /mrchiblog           # 工作目录，command 命令在工作目录下执行
     command: gunicorn -c gunicorn.py -w 1 -b 0.0.0.0:5000 manage:app  # 容器启动时默认执行的命令
     ports:                            # 端口映射，这里把容器的 5000 端口映射到宿主机的 5000 端口，并监听宿主机 127.0.0.1 的连接
@@ -47,10 +47,8 @@ services:       # 容器编排中不同服务的配置
       FLASK_APP: "manage:app"
       FLASK_ENV: "production"
       PROD_DATABASE_URI: "mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}?charset=utf8mb4"
-      OWNER:
-      PROJECT:
-      ROOTDIR:
-      ACCESS_TOKEN:
+      REPO_DIR: "/mrchiblog/repo"
+      REPO_SSHKEY: "/mrchiblog/sshkey/id_rsa"
       WEBHOOK_TOKEN:
       HMAC_KEY:
       PROD_DINGTALK_TOKEN:
@@ -59,6 +57,8 @@ services:       # 容器编排中不同服务的配置
     volumes:
       - /mrchiblog/cache/whoosh:/mrchiblog/prod_whoosh_idx:rw         # Whoosh 索引数据文件
       - /mrchiblog/logs:/mrchiblog/logs:rw                            # gunicorn 日志文件
+      - /mrchiblog/sshkey:/mrchiblog/sshkey:ro                        # Git SSH key
+      - /mrchiblog/repo:/mrchiblog/repo:rw                            # Git Repo
     working_dir: /mrchiblog
     command: flask rq worker update
     networks:
