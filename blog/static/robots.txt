@@ -1,0 +1,7 @@
+User-Agent: *
+Disallow: /categories
+Disallow: /labels
+Disallow: /search
+Disallow: /manage/
+Disallow: /static/
+Disallow: /webhook/

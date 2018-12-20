@@ -1,6 +1,7 @@
 # coding=utf-8
 
-from flask import Blueprint, render_template, g, abort
+from flask import Blueprint, render_template, g, abort, send_from_directory, \
+    current_app
 from sqlalchemy import func
 
 from blog.models import redis, md_converter, \
@@ -192,3 +193,8 @@ def about():
         "about.html",
         html_content=html_content,
     )
+
+
+@bp_main.route("/robots.txt")
+def robots_txt():
+    return send_from_directory(current_app.static_folder, 'robots.txt')
