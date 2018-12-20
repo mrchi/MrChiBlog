@@ -8,7 +8,7 @@ flask = "*"
 flask-sqlalchemy = "*"
 pymysql = "*"
 requests = "*"
-redis = "==2.10.6"
+redis = "*"
 markdown = "*"
 pygments = "*"
 flask-redis = "*"
@@ -20,6 +20,7 @@ flask-rq2 = "*"
 gitpython = "*"
 
 [dev-packages]
+flake8 = "*"
 
 [requires]
 python_version = "3.7"
