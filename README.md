@@ -69,7 +69,7 @@ FLASK_APP=manage:app
 # 指定 Flask 在 production 模式
 FLASK_ENV=production
 
-# Git 仓库配置，依次为 Repo 目录，Repo 部署公钥（用于拉代码）
+# Git 仓库配置，依次为 Repo 目录，Repo 部署公钥（用于拉代码）对应的私钥
 REPO_DIR=$HOME/notes/
 REPO_SSHKEY=$HOME/.ssh/id_rsa
 
@@ -170,6 +170,21 @@ PROD_RQ_REDIS_URI=redis://127.0.0.1:6379/1
 
 ```
 docker-compose build
+```
+
+初始化文章 Repo：
+
+```
+cd $REPO_DIR
+git init
+git remote add origin <git ssh url>
+```
+
+复制 ssh_key（私钥）：
+
+```
+cp $HOME/.ssh/id_rsa /mrchiblog/sshkey/id_rsa
+chmod 600 /mrchiblog/sshkey/id_rsa
 ```
 
 运行
