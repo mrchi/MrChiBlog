@@ -1,7 +1,7 @@
 # coding=utf-8
 
 from .dingtalk import DingTalkRobot
-from .repo import PostRepo, CodingSignature
+from .repo import PostRepo, WebhookSignature
 
 
-__all__ = ["DingTalkRobot", "PostRepo", "CodingSignature"]
+__all__ = ["DingTalkRobot", "PostRepo", "WebhookSignature"]
