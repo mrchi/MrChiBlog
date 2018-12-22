@@ -11,7 +11,6 @@ WORKDIR /mrchiblog
 COPY Pipfile Pipfile.lock /mrchiblog/
 RUN pipenv install --system --deploy
 
-COPY apis/source /mrchiblog/apis/source
 COPY blog /mrchiblog/blog
 COPY *.py README.md /mrchiblog/
 RUN mkdir /mrchiblog/logs

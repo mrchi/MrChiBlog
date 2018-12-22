@@ -2,7 +2,7 @@
 
 from flask import Blueprint, jsonify, request, current_app, g, abort
 
-from blog.libs.repo import CodingSignature
+from blog.libs import WebhookSignature
 from blog.tasks.update import update_posts
 from .common import check_args
 
@@ -22,11 +22,16 @@ def http_403(e):
     return jsonify(dict(success=False, errmsg="签名验证失败")), 403
 
 
+@bp_webhook.errorhandler(404)
+def http_404(e):
+    return jsonify(dict(success=False, errmsg="404 NOT FOUND")), 404
+
+
 @bp_webhook.route("/coding", methods=["POST"])
 @check_args("ref:str?", "before:str?", "after:str?")
 def coding_webhook():
     # 鉴权
-    is_ok = CodingSignature.check_webhook_signature(
+    is_ok = WebhookSignature.calc_coding_signature(
         current_app.config["WEBHOOK_TOKEN"],
         request.data,
         request.headers.get("X-Coding-Signature", ""),
@@ -35,6 +40,35 @@ def coding_webhook():
         abort(403)
 
     event = request.headers.get("X-Coding-Event", "ping")
+
+    # 响应 push 事件
+    if event == "push":
+        diff_info = {
+            "ref": g.args.get("ref"),
+            "before": g.args.get("before"),
+            "after": g.args.get("after"),
+        }
+        update_posts.queue(diff_info)
+    # 响应 ping 事件
+    elif event == "ping":
+        pass
+
+    return jsonify(dict(success=True))
+
+
+@bp_webhook.route("/github", methods=["POST"])
+@check_args("ref:str?", "before:str?", "after:str?")
+def github_webhook():
+    # 鉴权
+    is_ok = WebhookSignature.calc_github_signature(
+        current_app.config["WEBHOOK_TOKEN"],
+        request.data,
+        request.headers.get("X-Hub-Signature", ""),
+    )
+    if not is_ok:
+        abort(403)
+
+    event = request.headers.get("X-GitHub-Event", "ping")
 
     # 响应 push 事件
     if event == "push":

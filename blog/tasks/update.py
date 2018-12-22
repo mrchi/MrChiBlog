@@ -6,7 +6,7 @@ from flask import current_app
 
 from . import rq
 from blog.models import db, redis, Post, User, Category, Label, md_converter
-from blog.libs.repo import PostRepo
+from blog.libs import PostRepo
 
 
 @rq.job("update", timeout=180)
