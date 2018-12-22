@@ -5,7 +5,7 @@ from datetime import datetime
 from flask import current_app
 
 from . import rq
-from blog.libs.apis import DingTalkRobot
+from blog.libs import DingTalkRobot
 
 
 @rq.job("notify", timeout=60)

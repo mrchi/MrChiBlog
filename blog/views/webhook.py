@@ -2,7 +2,7 @@
 
 from flask import Blueprint, jsonify, request, current_app, g, abort
 
-from blog.libs.repo import CodingSignature
+from blog.libs import CodingSignature
 from blog.tasks.update import update_posts
 from .common import check_args
 
