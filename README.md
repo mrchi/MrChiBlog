@@ -1,12 +1,12 @@
 # MrChiBlog
-使用 Flask 和 Bootstrap 构建的轻量博客，基于 Git Repo 存储博客内容（目前支持 Coding.net Webhook）。
+使用 Flask 和 Bootstrap 构建的轻量博客，基于 Git Repo 存储博客内容。
 
 项目缘起于在前司工作期间，需要搭建一个团队技术博客，需要支持团队多人发布文章，并放在公网访问。彼时团队代码托管在 Coding，刚好也不想增加新的一套账号体系，因此想到了 Coding repo 作为文章来源，使用 Coding API 来获取内容并展示的方案。不巧的是，在职期间一直没时间实现，离职后终于动手实现了基本功能。
 
 # 特性
 
 - 使用 Git Repo 管理 markdown 文章，支持扩展 markdown 语法；
-- 通过 webhook 自动更新文章内容（目前支持 Coding）；
+- 通过 webhook 自动更新文章内容（目前支持 Coding 和 GitHub）；
 - 支持文章拥有以下元数据：分类和标签，另外通过跟踪 commit 记录获取文章创建时间和更新时间；
 - 支持按分类和标签查看文章；
 - 支持全文检索文章标题和内容；
