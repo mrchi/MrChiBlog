@@ -8,6 +8,7 @@ from blog import views
 from blog.models import db, redis
 from blog.tasks import rq
 
+
 def create_app(config_obj):
     """factory function"""
     app = Flask(__name__)
